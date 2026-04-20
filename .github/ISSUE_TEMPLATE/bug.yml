@@ -1,0 +1,73 @@
+name: Bug report
+description: Something broke. A tool returned wrong data, the server errored, a client config stopped working.
+title: "[bug] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. The more concrete the repro, the faster we can fix it.
+        Before filing: please run `xmp4_server` in your client and copy the version into the field below.
+  - type: input
+    id: server-version
+    attributes:
+      label: xmp4 server version
+      description: Output of `xmp4_server` (e.g. `xmp4 1.1.3 (deae5c9)`).
+      placeholder: "xmp4 1.1.3 (deae5c9)"
+    validations:
+      required: true
+  - type: dropdown
+    id: client
+    attributes:
+      label: MCP client
+      options:
+        - Claude Code
+        - Cursor
+        - Claude Desktop
+        - Continue
+        - Windsurf
+        - mcp-remote bridge
+        - Other (specify in "Additional context")
+    validations:
+      required: true
+  - type: input
+    id: client-version
+    attributes:
+      label: Client version
+      placeholder: "e.g. Claude Code 0.14.2"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Exact repro
+      description: |
+        Tool call(s) as you would run them — include `project`, `symbol_name`, `file_path` etc. exactly.
+        If it is a client-side config issue, paste the JSON snippet instead.
+      render: jsonc
+      placeholder: |
+        xmp4_callers(project="flask/Flask", symbol_name="run", file_path="src/flask/app.py")
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+      description: What did you think this call would return?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: Copy the actual tool output verbatim. Include any error variant (`invalid_param`, `symbol_not_found`, `repo_not_found`, `invalid_kind`).
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything else worth knowing — related docs, prior issue, workaround you tried.
+    validations:
+      required: false

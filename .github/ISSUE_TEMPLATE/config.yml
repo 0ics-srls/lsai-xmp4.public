@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or usage help
+    url: https://github.com/0ics-srls/lsai-xmp4.public/discussions
+    about: Ask a question about using xmp4 with your client or about tool workflow.
+  - name: MCP protocol questions
+    url: https://modelcontextprotocol.io/docs
+    about: Questions about the MCP protocol itself go to the official MCP docs.

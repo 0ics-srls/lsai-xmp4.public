@@ -1,0 +1,59 @@
+name: Feature request
+description: Suggest a new tool, a new parameter on an existing tool, or a behavior change.
+title: "[feat] "
+labels: ["feature", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Propose a change that would make xmp4 more useful for your AI-agent workflow.
+        If you are asking for a **library to be indexed**, use the **repo request** template instead — different queue.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you hitting?
+      description: Describe the concrete AI-agent task that is awkward or impossible today with the existing 17 tools.
+      placeholder: "When I ask Claude to find all async methods of a class, it currently has to outline the file and filter client-side..."
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: A new tool? A new parameter? A behavior tweak? Sketch the signature.
+      render: jsonc
+      placeholder: |
+        xmp4_search(
+          project="...",
+          query="...",
+          attributes=["async"]    // NEW — filter by SCIP modifier
+        )
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What existing tools or workarounds have you tried, and why do they fall short?
+    validations:
+      required: false
+  - type: dropdown
+    id: languages
+    attributes:
+      label: Languages this would help
+      multiple: true
+      options:
+        - C#
+        - TypeScript
+        - Python
+        - Java
+        - Rust
+        - PHP
+        - Go
+        - JavaScript
+        - Dart
+        - Ruby
+        - C++
+        - All / language-agnostic
+    validations:
+      required: true

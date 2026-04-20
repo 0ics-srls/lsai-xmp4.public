@@ -1,0 +1,78 @@
+name: Request a library
+description: Ask us to add a specific OSS repository to the xmp4 index.
+title: "[repo] <owner>/<repo>"
+labels: ["repo-request", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We add libraries to xmp4 based on a combined signal of:
+        1. **User requests** (this issue), and
+        2. **Aggregate query logs** — if many AI agents search for a library we don't have, we see it and prioritize.
+
+        One user request plus real query-log demand almost always gets indexed. A request with no downstream query traffic may wait.
+  - type: input
+    id: github-url
+    attributes:
+      label: GitHub URL of the repository
+      placeholder: "https://github.com/owner/repo"
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Primary language
+      description: Tier-1 = full coverage contract. Tier-2 = best-effort, may have indexer quirks.
+      options:
+        - "C# (tier 1)"
+        - "TypeScript (tier 1)"
+        - "Python (tier 1)"
+        - "Java (tier 1)"
+        - "Rust (tier 1)"
+        - "PHP (tier 1)"
+        - "Go (tier 2)"
+        - "JavaScript (tier 2)"
+        - "Dart (tier 2)"
+        - "Ruby (tier 2)"
+        - "C++ (tier 2)"
+        - "Multi-language monorepo"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Preferred version / tag / branch
+      description: Leave blank for the latest stable release.
+      placeholder: "v3.1.2 or main"
+    validations:
+      required: false
+  - type: textarea
+    id: use-case
+    attributes:
+      label: One real query you want to run
+      description: |
+        Concrete AI-agent workflow this would unblock. A realistic example makes prioritization easier.
+      placeholder: |
+        xmp4_hierarchy(project="<repo>/<project>", symbol_name="BaseController")
+        — I want Claude to list all derived controllers across the codebase when I'm designing a new one.
+    validations:
+      required: true
+  - type: dropdown
+    id: monorepo
+    attributes:
+      label: Is it a monorepo?
+      description: Knowing this up front helps us pick the right indexing strategy (1 SCIP vs N per sub-package).
+      options:
+        - "No — single package"
+        - "Yes — Maven/Gradle/.sln style (1 SCIP, N projects)"
+        - "Yes — workspace (Cargo / yarn / pnpm / pyproject workspaces)"
+        - "Not sure"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else
+      description: Build tool quirks, known indexing issues, notes on subfolders to skip, upstream SCIP-tool bugs you are aware of.
+    validations:
+      required: false

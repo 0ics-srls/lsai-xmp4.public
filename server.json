@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.example4/xmp4",
+  "title": "xmp4 — Semantic Code Intelligence",
+  "description": "Hosted MCP server providing 17 SCIP-backed semantic code-intelligence tools over 547+ pre-indexed open-source libraries across 10 languages. Find symbols, usages, callers, type hierarchies, and source bodies in one call instead of dozens of grep passes.",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/0ics-srls/lsai-xmp4.public",
+    "source": "github"
+  },
+  "websiteUrl": "https://example4.ai",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.example4.ai/mcp"
+    }
+  ]
+}
