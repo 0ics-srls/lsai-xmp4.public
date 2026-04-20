@@ -9,7 +9,7 @@ LIB into a user project.
 Repos: spring-boot, tokio, django, efcore (5 tier-1 big libraries).
 MCP-backend responses captured verbatim 2026-04-20 from mcp.example4.ai,
 gitmcp.io, mcp.context7.com. Grep re-executed live against shallow clones
-at /mnt/f/lsai-testing/bigrepos/.
+at /home/laco/bigrepos/.
 
 Tokenizer: tiktoken cl100k_base. Same for all sides → fair ratio.
 
@@ -22,7 +22,7 @@ import tiktoken
 from pathlib import Path
 
 ENC = tiktoken.get_encoding("cl100k_base")
-REPOS = Path("/mnt/f/lsai-testing/bigrepos")
+REPOS = Path("/home/laco/bigrepos")
 
 
 def tok(s: str) -> int:

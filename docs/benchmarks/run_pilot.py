@@ -4,7 +4,7 @@ xmp4 vs grep — pilot benchmark (12 cells, 6 tier-1 languages).
 
 xmp4 outputs captured verbatim on 2026-04-20 against mcp.example4.ai v1.1.3.
 grep outputs generated here via subprocess against local clones in
-/mnt/f/lsai-testing/repos/.
+/home/laco/repos-test/.
 
 Tokenization: tiktoken cl100k_base (OpenAI GPT-4). Same tokenizer for every
 backend — ratios are fair. Absolute token counts would shift with Anthropic
@@ -20,7 +20,7 @@ import tiktoken
 from pathlib import Path
 
 ENC = tiktoken.get_encoding("cl100k_base")
-REPOS_ROOT = Path("/mnt/f/lsai-testing/repos")
+REPOS_ROOT = Path("/home/laco/repos-test")
 
 
 def tok(s: str) -> int:

@@ -4,7 +4,7 @@ xmp4 FULL-TOOL comparative matrix — 14 xmp4 tools × 6 tier-1 libraries.
 
 Every xmp4 response below was captured verbatim from mcp.example4.ai v1.1.3
 on 2026-04-20 during interactive benchmarking sessions. The `grep` equivalents
-are re-executed live against /mnt/f/lsai-testing/repos/.
+are re-executed live against /home/laco/repos-test/.
 
 Tokenizer: tiktoken cl100k_base. Same tokenizer every side → fair ratio.
 
@@ -17,7 +17,7 @@ import tiktoken
 from pathlib import Path
 
 ENC = tiktoken.get_encoding("cl100k_base")
-REPOS_ROOT = Path("/mnt/f/lsai-testing/repos")
+REPOS_ROOT = Path("/home/laco/repos-test")
 
 
 def tok(s: str) -> int:
