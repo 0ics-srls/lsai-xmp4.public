@@ -9,11 +9,11 @@
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-Streamable%20HTTP-f59e0b?style=flat-square)](https://modelcontextprotocol.io)
 [![repos](https://img.shields.io/badge/libraries-547%20indexed-f59e0b?style=flat-square)](#language-coverage)
-[![vs GitMCP](https://img.shields.io/badge/vs%20GitMCP-42%C3%97%20fewer%20tokens-f59e0b?style=flat-square)](https://github.com/0ics-srls/lsai-xmp4.marketing/blob/main/benchmarks/WHITEPAPER.md)
+[![vs GitMCP](https://img.shields.io/badge/vs%20GitMCP-42%C3%97%20fewer%20tokens-f59e0b?style=flat-square)](docs/benchmarks/WHITEPAPER.md)
 
 **Real callers. Real source. Real hierarchy. In 3 tool calls.**
 
-[**→ Landing page**](https://example4.ai) · [**→ Benchmark whitepaper**](https://github.com/0ics-srls/lsai-xmp4.marketing/blob/main/benchmarks/WHITEPAPER.md) · [**→ Connect in 30 seconds**](docs/connect-instructions.md)
+[**→ Landing page**](https://example4.ai) · [**→ Benchmark whitepaper**](docs/benchmarks/WHITEPAPER.md) · [**→ Connect in 30 seconds**](docs/connect-instructions.md)
 
 </div>
 
@@ -44,7 +44,7 @@ with xmp4:
 xmp4 is 60× cheaper here — and every result is SCIP-resolved, not text-matched.
 ```
 
-## The measured numbers (4 big OSS libs · [reproducible](https://github.com/0ics-srls/lsai-xmp4.marketing/blob/main/benchmarks/WHITEPAPER.md))
+## The measured numbers (4 big OSS libs · [reproducible](docs/benchmarks/WHITEPAPER.md))
 
 Same realistic question on spring-boot · tokio · django · efcore: *"give me the signature, body, and real callers of X."*
 
@@ -57,7 +57,7 @@ Same realistic question on spring-boot · tokio · django · efcore: *"give me t
 | Type hierarchy? | ✅ | ✗ | ✗ | ✗ |
 | Setup cost | 0 | GBs of clone | 0 | 0 |
 
-> GitMCP and Context7 look cheaper **per call** because they return less. To reach the same answer, GitMCP balloons to 42× more tokens — and still can't produce the semantic caller list. Context7 can't at any cost. [**Full whitepaper with Python harness →**](https://github.com/0ics-srls/lsai-xmp4.marketing/blob/main/benchmarks/WHITEPAPER.md)
+> GitMCP and Context7 look cheaper **per call** because they return less. To reach the same answer, GitMCP balloons to 42× more tokens — and still can't produce the semantic caller list. Context7 can't at any cost. [**Full whitepaper with Python harness →**](docs/benchmarks/WHITEPAPER.md)
 
 ## Connect in 30 seconds
 
@@ -123,7 +123,7 @@ Full detail → [`docs/privacy.md`](docs/privacy.md).
 ## Status
 
 - 🟢 **Live** — `mcp.example4.ai` v1.1.3 · 547 repos · 9 145 projects · 17 tools · 10 languages
-- 🟢 **Benchmark published** — [reproducible whitepaper with Python harness](https://github.com/0ics-srls/lsai-xmp4.marketing/blob/main/benchmarks/WHITEPAPER.md)
+- 🟢 **Benchmark published** — [reproducible whitepaper with Python harness](docs/benchmarks/WHITEPAPER.md)
 - 🔧 **MCP registry submissions** — in progress (Official Registry, Smithery, Cursor Directory, MCP.so, PulseMCP)
 - 🔧 **Demand-driven growth loop** — in progress
 

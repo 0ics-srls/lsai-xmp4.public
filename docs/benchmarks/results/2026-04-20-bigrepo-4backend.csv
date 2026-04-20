@@ -1,0 +1,5 @@
+repo,xmp4_calls,xmp4_req,xmp4_out,xmp4_total,grep_calls,grep_req,grep_out,grep_total,gitmcp_calls,gitmcp_req,gitmcp_out,gitmcp_total,c7_calls,c7_req,c7_out,c7_total
+spring-boot,3,124,543,667,3,55,984,1039,1,17,270,287,2,47,276,323
+tokio,3,94,315,409,3,51,634,685,1,16,134,150,1,25,139,164
+django,3,79,170,249,3,52,316,368,1,15,102,117,1,21,159,180
+efcore,3,94,139,233,3,54,832,886,1,17,81,98,1,23,126,149
