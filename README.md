@@ -19,7 +19,7 @@ No install. No API key for the public endpoint. No access to your code — xmp4 
 | [`docs/request-repo.md`](docs/request-repo.md) | How to get a library added to the index (opens an issue here) |
 | [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE/) | Bug, feature-request, request-repo templates |
 
-The server source is private at [`0ics-srls/lsai-xmp4`](https://github.com/0ics-srls/lsai-xmp4); this repository hosts **only user-facing documentation, issue tracking, and the repo-request intake**.
+This repository is the canonical user-facing surface for xmp4 — documentation, client configuration, issue tracking, and the public repo-request queue that drives demand-driven index growth.
 
 ## 30-second setup — Claude Code example
 
@@ -89,12 +89,12 @@ Full detail in [`docs/privacy.md`](docs/privacy.md).
 ## License
 
 Apache 2.0 for this documentation repository. See [LICENSE](LICENSE).
-The xmp4 server source is private. The hosted endpoint is free for personal and commercial use subject to the Terms of Service (TBD link).
+The hosted `mcp.example4.ai` endpoint is free for personal and commercial use subject to the Terms of Service (link pending).
 
 ## Issues & contact
 
-- GitHub issues on this repo for bug reports, feature requests, or repo requests
-- MCP server source (private) for commercial licensing inquiries: see repository owner profile
+- GitHub issues on this repo for bug reports, feature requests, or library-indexing requests.
+- Commercial licensing / self-hosted deployment enquiries: see the repository owner profile on GitHub.
 
 ---
 
