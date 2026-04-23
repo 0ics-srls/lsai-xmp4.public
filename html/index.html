@@ -192,6 +192,7 @@ section{padding:88px 0;position:relative;z-index:1}
 .quickstart{background:var(--bg-alt);border:1px solid #1f1f1f;border-radius:14px;padding:44px 36px;max-width:780px;margin:0 auto;text-align:center}
 .quickstart .section-title{margin-bottom:10px;text-align:center}
 .quickstart-sub{color:var(--text-dim);margin-bottom:22px;font-size:.98rem}
+.quickstart-step-h3{margin-top:28px;margin-bottom:8px;font-size:1.05rem;font-weight:700;letter-spacing:-.01em;color:var(--text)}
 .quickstart pre{background:#0d0d0d;border:1px solid #1a1a1a;border-radius:6px;padding:18px;font-family:var(--mono);font-size:.82rem;text-align:left;overflow-x:auto;line-height:1.6}
 .quickstart pre .ck{color:var(--accent)}.quickstart pre .cs{color:var(--green)}.quickstart pre .cc{color:#555}
 .quickstart-clients{color:var(--text-dimmer);font-size:.82rem;margin-top:18px;font-family:var(--mono)}
@@ -538,7 +539,16 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
   <span class="ck">"type"</span>: <span class="cs">"http"</span>,
   <span class="ck">"url"</span>: <span class="cs">"https://mcp.example4.ai/mcp"</span>
 }</pre>
+
+    <h3 class="quickstart-step-h3" data-i18n="qs-skill-title">Teach Claude how to use xmp4</h3>
+    <p class="quickstart-sub" data-i18n="qs-skill-sub">Optional but recommended. Install the xmp4 skill so Claude picks the cheapest tool path automatically (tests_for + view over grep).</p>
+<pre><span class="cc"># Claude Code</span>
+<span class="cs">mkdir -p ~/.claude/skills/xmp4 && curl -sfL https://example4.ai/xmp4-skill.md -o ~/.claude/skills/xmp4/SKILL.md</span>
+
+<span class="cc"># Any other Claude client: point Claude at the URL</span>
+<span class="cs">Read and follow https://example4.ai/xmp4-skill.md when using xmp4 tools.</span></pre>
     <p class="quickstart-clients" data-i18n="qs-clients" data-i18n-html="1">
+      <a href="https://example4.ai/xmp4-skill.md">xmp4 skill →</a> &nbsp;·&nbsp;
       <a href="https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/connect-instructions.md">Full setup guide →</a>
     </p>
   </div>
@@ -551,6 +561,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
 <footer role="contentinfo">
 <div class="footer-brand">xmp4 · example4.ai · A product by 0ics srl · Bologna, Italy</div>
 <div class="footer-links">
+  <a href="https://example4.ai/xmp4-skill.md">xmp4 skill (for Claude)</a>
   <a href="https://github.com/0ics-srls/lsai-xmp4.public">Public docs</a>
   <a href="https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/benchmarks/WHITEPAPER.md">Benchmark</a>
   <a href="https://github.com/LadislavSopko/lsai-protocol">LSAI protocol</a>
@@ -640,7 +651,9 @@ en: {
   "qs-label": "Get started",
   "qs-title": "Add one line. Done.",
   "qs-sub": "Paste into your MCP client config. No account. No key.",
-  "qs-clients": "<a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/connect-instructions.md\">Full setup guide →</a>",
+  "qs-skill-title": "Teach Claude how to use xmp4",
+  "qs-skill-sub": "Optional but recommended. Install the xmp4 skill so Claude picks the cheapest tool path automatically (tests_for + view over grep).",
+  "qs-clients": "<a href=\"https://example4.ai/xmp4-skill.md\">xmp4 skill →</a> &nbsp;·&nbsp; <a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/connect-instructions.md\">Full setup guide →</a>",
   "disclaimer": "xmp4 builds on <a href=\"https://github.com/sourcegraph/scip\">SCIP</a>, an open code-indexing format released by Sourcegraph under the Apache 2.0 License. xmp4 is an independent product by 0ics srl and is not affiliated with, endorsed by, or sponsored by Sourcegraph. Indexed OSS libraries remain property of their respective authors under their original licenses — see <a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/privacy.md\">privacy &amp; attribution</a>."
 },
 it: {
@@ -716,7 +729,9 @@ it: {
   "qs-label": "Inizia",
   "qs-title": "Aggiungi una riga. Fatto.",
   "qs-sub": "Incolla nella config del tuo client MCP. Senza account. Senza key.",
-  "qs-clients": "<a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/connect-instructions.md\">Guida completa →</a>",
+  "qs-skill-title": "Insegna a Claude come usare xmp4",
+  "qs-skill-sub": "Opzionale ma consigliato. Installa la skill xmp4 così Claude sceglie il tool più economico in automatico (tests_for + view invece di grep).",
+  "qs-clients": "<a href=\"https://example4.ai/xmp4-skill.md\">xmp4 skill →</a> &nbsp;·&nbsp; <a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/connect-instructions.md\">Guida completa →</a>",
   "disclaimer": "xmp4 si basa su <a href=\"https://github.com/sourcegraph/scip\">SCIP</a>, un formato aperto di indicizzazione del codice rilasciato da Sourcegraph sotto licenza Apache 2.0. xmp4 e' un prodotto indipendente di 0ics srl e non e' affiliato, approvato o sponsorizzato da Sourcegraph. Le librerie OSS indicizzate restano proprieta' dei rispettivi autori sotto le licenze originali — vedi <a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/privacy.md\">privacy &amp; attribution</a>."
 }};
 
