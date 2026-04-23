@@ -338,26 +338,26 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
   <h2 class="section-title" id="sc-title" data-i18n="sc-title">What it takes to answer one question.</h2>
   <div class="scenario">
     <div class="scenario-q" data-i18n="sc-qlabel">Developer asks their AI:</div>
-    <p class="scenario-prompt" data-i18n="sc-prompt" data-i18n-html="1">"In <em>spring-data-mongodb</em>, who actually calls <em>MongoTemplate.insertAll()</em>, and what does the method body look like?"</p>
+    <p class="scenario-prompt" data-i18n="sc-prompt" data-i18n-html="1" data-i18n-html="1">"In <em>spring-data-mongodb</em>, who actually calls <em>MongoTemplate.insertAll()</em>, and what does the method body look like?"</p>
     <div class="scenario-grid" role="list">
       <article class="sc-col winner" role="listitem">
         <h4><span>xmp4</span><span class="tag" data-i18n="sc-tag-good">exact</span></h4>
-        <p class="sc-action" data-i18n="sc-xmp4-action"><code style="color:var(--accent);font-family:var(--mono);font-size:.82rem">xmp4_callers</code> → 12 real call sites across 4 repos (typed).<br><code style="color:var(--accent);font-family:var(--mono);font-size:.82rem">xmp4_source</code> → full method body with signature.</p>
+        <p class="sc-action" data-i18n="sc-xmp4-action" data-i18n-html="1"><code style="color:var(--accent);font-family:var(--mono);font-size:.82rem">xmp4_callers</code> → 12 real call sites across 4 repos (typed).<br><code style="color:var(--accent);font-family:var(--mono);font-size:.82rem">xmp4_source</code> → full method body with signature.</p>
         <div class="sc-cost"><span>Cost</span><strong>~1,558 tokens · 2s</strong></div>
       </article>
       <article class="sc-col" role="listitem">
         <h4><span>grep + clone</span><span class="tag" data-i18n="sc-tag-bad">noisy</span></h4>
-        <p class="sc-action" data-i18n="sc-grep-action">Clone 4 repos (~300 MB), grep for "insertAll", AI reads 50 files, half match unrelated types (List.insertAll, Cache.insertAll). Re-rank, discard, guess which are real.</p>
+        <p class="sc-action" data-i18n="sc-grep-action" data-i18n-html="1">Clone 4 repos (~300 MB), grep for "insertAll", AI reads 50 files, half match unrelated types (List.insertAll, Cache.insertAll). Re-rank, discard, guess which are real.</p>
         <div class="sc-cost"><span>Cost</span><strong>~47,200 tokens · minutes</strong></div>
       </article>
       <article class="sc-col" role="listitem">
         <h4><span>GitMCP</span><span class="tag" data-i18n="sc-tag-bad">blind</span></h4>
-        <p class="sc-action" data-i18n="sc-gitmcp-action">Fast text search on GitHub — returns every string occurrence of "insertAll" in any context: tests, docs, comments, unrelated classes. No type filtering, AI must converge by trial.</p>
+        <p class="sc-action" data-i18n="sc-gitmcp-action" data-i18n-html="1">Fast text search on GitHub — returns every string occurrence of "insertAll" in any context: tests, docs, comments, unrelated classes. No type filtering, AI must converge by trial.</p>
         <div class="sc-cost"><span>Cost</span><strong>~65,629 tokens</strong></div>
       </article>
       <article class="sc-col" role="listitem">
         <h4><span>Context7</span><span class="tag" data-i18n="sc-tag-bad">n/a</span></h4>
-        <p class="sc-action" data-i18n="sc-ctx7-action">Returns documentation snippets only. No source code, no call graph, no way to see who calls what. Works for reading about an API, not for reasoning about real code.</p>
+        <p class="sc-action" data-i18n="sc-ctx7-action" data-i18n-html="1">Returns documentation snippets only. No source code, no call graph, no way to see who calls what. Works for reading about an API, not for reasoning about real code.</p>
         <div class="sc-cost"><span>Cost</span><strong data-i18n="sc-ctx7-cost">can't answer</strong></div>
       </article>
     </div>
