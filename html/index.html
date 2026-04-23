@@ -746,44 +746,84 @@ document.querySelectorAll(".faq-item").forEach(function(item){
   });
 });
 
-// Particles — mouse-reactive on whole window (fixes v2 bug)
-(function(){
-  var canvas = document.getElementById("particles");
+// Particle network (mouse-reactive) — uiticket parity (edges between particles + edges to cursor)
+(() => {
+  const canvas = document.getElementById('particles');
   if (!canvas) return;
-  var ctx = canvas.getContext("2d");
-  var particles = [];
-  var mouse = {x: -9999, y: -9999};
-  function resize(){
-    var rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width; canvas.height = rect.height;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  let w, h, particles, mouse = { x: -9999, y: -9999 };
+  const CONNECT_DIST = 140;
+  const MOUSE_DIST = 200;
+  const COUNT_FACTOR = 12000;
+
+  function resize() {
+    const hero = canvas.parentElement;
+    w = hero.offsetWidth;
+    h = hero.offsetHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    init();
   }
-  resize();
-  window.addEventListener("resize", resize);
-  window.addEventListener("mousemove", function(e){
-    var rect = canvas.getBoundingClientRect();
+  function init() {
+    const count = Math.floor((w * h) / COUNT_FACTOR);
+    particles = [];
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+        r: Math.random() * 1.5 + 0.5, o: Math.random() * 0.5 + 0.2,
+      });
+    }
+  }
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(245, 158, 11, ${p.o})`;
+      ctx.fill();
+    }
+    for (let i = 0; i < particles.length; i++) {
+      const a = particles[i];
+      const dm = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+      if (dm < MOUSE_DIST) {
+        const alpha = (1 - dm / MOUSE_DIST) * 0.6;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y);
+        ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`;
+        ctx.lineWidth = 0.8; ctx.stroke();
+      }
+      for (let j = i + 1; j < particles.length; j++) {
+        const b = particles[j];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < CONNECT_DIST) {
+          const alpha = (1 - d / CONNECT_DIST) * 0.15;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(245, 158, 11, ${alpha})`;
+          ctx.lineWidth = 0.6; ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  canvas.parentElement.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
+  }, { passive: true });
+  canvas.parentElement.addEventListener('mouseleave', () => {
+    mouse.x = -9999; mouse.y = -9999;
   });
-  for (var i = 0; i < 70; i++) particles.push({
-    x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-    vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, r: Math.random()*1.6 + 0.5
-  });
-  function tick(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(function(p){
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-      var dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.sqrt(dx*dx+dy*dy);
-      if (d < 140) { p.vx += dx/d*0.06; p.vy += dy/d*0.06; }
-      p.vx = Math.max(-2, Math.min(2, p.vx*0.97));
-      p.vy = Math.max(-2, Math.min(2, p.vy*0.97));
-      ctx.fillStyle = "rgba(245,158,11," + (d < 200 ? 0.55 : 0.18) + ")";
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
-    });
-    requestAnimationFrame(tick);
-  }
-  tick();
+  window.addEventListener('resize', resize, { passive: true });
+  resize(); draw();
 })();
 
 // Live stats + animate counters + animate bench bars + rewrite i18n
