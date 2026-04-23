@@ -818,9 +818,18 @@ document.querySelectorAll(".faq-item").forEach(function(item){
     }, {threshold: 0.3});
     document.querySelectorAll(".bench-bar .fill").forEach(function(f){ obs.observe(f); });
   }
-  // Observers run IMMEDIATELY (independent of fetch) so bars + counters work even offline
-  observeCounters();
+  // Bars animate IMMEDIATELY (bar widths are static, no need to wait for API)
   observeBars();
+
+  // Counters WAIT for /api/stats so they animate to the live value (not the 547 fallback).
+  // On fetch fail or timeout → fallback after 2.5s with static data-target values.
+  var countersStarted = false;
+  function startCountersOnce() {
+    if (countersStarted) return;
+    countersStarted = true;
+    observeCounters();
+  }
+
   fetch("https://dashboard.example4.ai/api/stats", { cache: "no-store" })
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(s){
@@ -844,7 +853,10 @@ document.querySelectorAll(".faq-item").forEach(function(item){
         setLang(currentLang);
       }
     })
-    .catch(function(){});
+    .catch(function(){})
+    .finally(startCountersOnce);
+  // Safety net — if fetch hangs (network blocked) start counters with fallback values
+  setTimeout(startCountersOnce, 2500);
 })();
 </script>
 </body>
