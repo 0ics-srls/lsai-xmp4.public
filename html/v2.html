@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>xmp4 — See inside open source, like the compiler does</title>
+<meta name="description" content="xmp4 is a pre-indexed MCP server. Your AI agent gets the compiler's view of thousands of OSS libraries — real callers, real types, real source — in 3 tool calls. Free. No install.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://example4.ai">
+<meta property="og:title" content="xmp4 — MCP server that knows open source">
+<meta property="og:description" content="See inside open source like the compiler does. Pre-indexed MCP endpoint at mcp.example4.ai. Free. No API key. No install.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="xmp4 — MCP server that knows open source">
+<meta name="twitter:description" content="See inside open source like the compiler does. Pre-indexed MCP endpoint. Free. No install.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0a;--bg-alt:#111;--bg-card:#161616;--bg-card-hover:#1a1a1a;--text:#e5e5e5;--text-dim:#888;--text-dimmer:#555;--accent:#f59e0b;--accent-dim:#b45309;--accent-glow:rgba(245,158,11,.15);--green:#22c55e;--red:#ef4444;--mono:'SF Mono','Fira Code','Cascadia Code','JetBrains Mono',Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;--max-w:1040px;--radius:8px}
+html{scroll-behavior:smooth;color:var(--text);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);overflow-x:hidden;position:relative}
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.ambient .orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.35}
+.ambient .orb-1{width:600px;height:600px;background:radial-gradient(circle,var(--accent) 0%,transparent 70%);top:-200px;left:-100px;animation:float-1 20s ease-in-out infinite}
+.ambient .orb-2{width:500px;height:500px;background:radial-gradient(circle,#06b6d4 0%,transparent 70%);top:40%;right:-150px;animation:float-2 25s ease-in-out infinite;opacity:.2}
+.ambient .orb-3{width:400px;height:400px;background:radial-gradient(circle,#8b5cf6 0%,transparent 70%);bottom:-100px;left:30%;animation:float-3 22s ease-in-out infinite;opacity:.15}
+@keyframes float-1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(80px,60px) scale(1.1)}66%{transform:translate(-40px,30px) scale(.95)}}
+@keyframes float-2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,-80px) scale(1.15)}}
+@keyframes float-3{0%,100%{transform:translate(0,0)}40%{transform:translate(50px,-50px)}80%{transform:translate(-30px,-20px)}}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,black 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,black 20%,transparent 70%)}
+nav,section{position:relative;z-index:1}
+a{color:var(--accent);text-decoration:none;transition:opacity .2s}
+a:hover{opacity:.8}
+.container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+section{padding:96px 0}
+.lang-switch{position:fixed;top:20px;right:24px;z-index:100;display:flex;gap:4px;background:rgba(10,10,10,.85);backdrop-filter:blur(8px);border:1px solid #222;border-radius:999px;padding:4px}
+.lang-switch button{background:transparent;border:none;color:var(--text-dimmer);font-family:var(--mono);font-size:.78rem;font-weight:600;padding:6px 14px;border-radius:999px;cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.lang-switch button.active{background:var(--accent);color:#000}
+.lang-switch button:hover:not(.active){color:var(--text)}
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+/* HERO */
+.hero{min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:40px 24px;overflow:hidden}
+.hero-inner{max-width:860px;position:relative;z-index:2}
+#particles{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.hero-logo{font-family:var(--mono);font-size:clamp(1rem,2.2vw,1.25rem);font-weight:700;color:var(--accent);letter-spacing:-.02em;margin-bottom:28px;display:inline-block}
+.hero-headline{font-size:clamp(2.4rem,6.5vw,4.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:22px;min-height:1.1em}
+.hero-headline .cursor{display:inline-block;width:3px;height:.85em;background:var(--accent);margin-left:4px;animation:blink 1s step-end infinite;vertical-align:text-bottom}
+@keyframes blink{50%{opacity:0}}
+.hero-sub{font-size:clamp(1rem,2.2vw,1.22rem);color:var(--text-dim);max-width:680px;margin:0 auto 36px;line-height:1.55}
+.hero-sub strong{color:var(--text);font-weight:600}
+.hero-sub .live{color:var(--accent);font-family:var(--mono);font-weight:700}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border-radius:var(--radius);font-size:.98rem;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--accent);color:#000}
+.btn-primary:hover{background:#fbbf24;opacity:1}
+.btn-secondary{background:transparent;color:var(--text-dim);border:1px solid #333}
+.btn-secondary:hover{border-color:#555;color:var(--text);opacity:1}
+.hero-note{font-size:.82rem;color:var(--text-dimmer);letter-spacing:.02em;font-family:var(--mono)}
+.hero-note .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:8px;vertical-align:middle;box-shadow:0 0 8px var(--green)}
+.hero-note .key{color:var(--accent)}
+/* SECTIONS */
+.section-label{font-family:var(--mono);font-size:.78rem;color:var(--accent);text-transform:uppercase;letter-spacing:.14em;margin-bottom:12px}
+.section-title{font-size:clamp(1.9rem,4.8vw,2.9rem);font-weight:800;letter-spacing:-.03em;margin-bottom:40px;line-height:1.1}
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;text-align:center}
+.stat-num{font-family:var(--mono);font-size:clamp(2rem,5vw,3.2rem);font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px}
+.stat-label{color:var(--text-dim);font-size:.88rem}
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.step{position:relative;background:var(--bg-card);border:1px solid #1f1f1f;border-radius:var(--radius);padding:28px 24px}
+.step-num{font-family:var(--mono);font-size:.78rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+.step-title{font-size:1.05rem;font-weight:700;margin-bottom:10px}
+.step-desc{color:var(--text-dim);font-size:.9rem;margin-bottom:14px;line-height:1.5}
+.step pre{background:#0d0d0d;border:1px solid #1a1a1a;border-radius:6px;padding:12px;font-family:var(--mono);font-size:.78rem;color:var(--text);overflow-x:auto;line-height:1.55}
+.step pre .ck{color:var(--accent)}.step pre .cs{color:var(--green)}.step pre .cc{color:#555}
+/* PROOF */
+.proof-wrap{background:var(--bg-card);border:1px solid #1f1f1f;border-radius:var(--radius);padding:48px;text-align:center}
+.proof-big{font-family:var(--mono);font-size:clamp(3.5rem,11vw,6rem);font-weight:800;color:var(--accent);line-height:1;margin-bottom:8px}
+.proof-big-sub{color:var(--text-dim);font-size:1.02rem;margin-bottom:20px}
+.proof-detail{color:var(--text-dim);line-height:1.7;font-size:.94rem;max-width:640px;margin:0 auto}
+.proof-detail code{background:#0d0d0d;padding:2px 8px;border-radius:4px;font-family:var(--mono);font-size:.85em;color:var(--text)}
+.proof-link{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-family:var(--mono);font-size:.85rem;color:var(--accent)}
+/* QUICKSTART */
+.quickstart{background:var(--bg-alt);border-radius:14px;padding:44px 40px;max-width:780px;margin:0 auto;text-align:center}
+.quickstart .section-title{margin-bottom:10px}
+.quickstart-sub{color:var(--text-dim);margin-bottom:24px;font-size:.98rem}
+.quickstart pre{background:#0d0d0d;border:1px solid #1a1a1a;border-radius:6px;padding:20px;font-family:var(--mono);font-size:.85rem;text-align:left;overflow-x:auto;line-height:1.6}
+.quickstart pre .ck{color:var(--accent)}.quickstart pre .cs{color:var(--green)}
+.quickstart-clients{color:var(--text-dimmer);font-size:.82rem;margin-top:18px;font-family:var(--mono)}
+.quickstart-clients a{color:var(--text-dim)}
+/* FOOTER */
+footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-top:80px}
+.footer-brand{color:var(--text-dimmer);font-size:.86rem;margin-bottom:10px}
+.footer-links{display:flex;gap:20px;justify-content:center;margin-bottom:16px;font-size:.86rem;flex-wrap:wrap}
+.footer-links a{color:var(--text-dim)}
+.footer-disclaimer{color:#555;font-size:.74rem;max-width:720px;margin:20px auto 12px;line-height:1.5}
+.footer-disclaimer a{color:#666}
+.footer-copy{color:#333;font-size:.76rem}
+/* RESPONSIVE */
+@media(max-width:768px){
+  section{padding:56px 0}
+  .stats,.steps{grid-template-columns:1fr;gap:18px}
+  .hero{min-height:82vh}
+  .proof-wrap{padding:32px 20px}
+  .quickstart{padding:32px 20px;margin:0 8px}
+  .hero-ctas{flex-direction:column;align-items:center}
+  .btn{width:100%;max-width:300px;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- AMBIENT -->
+<div class="ambient">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<div class="grid-bg"></div>
+
+<!-- LANG -->
+<div class="lang-switch">
+  <button class="active" onclick="setLang('en')">EN</button>
+  <button onclick="setLang('it')">IT</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+<canvas id="particles"></canvas>
+<div class="hero-inner">
+  <div class="hero-logo">xmp4 · example4.ai</div>
+  <h1 class="hero-headline" id="typed-target"></h1>
+  <p class="hero-sub" data-i18n="hero-sub" data-i18n-html="1">
+    A pre-indexed MCP server for <span class="live" data-stat-text="repos">547</span>+ OSS libraries across <span class="live" data-stat-text="languages">10</span> languages.<br>
+    Real callers, real types, real source — in <strong>3 tool calls</strong>.
+  </p>
+  <div class="hero-ctas">
+    <a href="#quickstart" class="btn btn-primary" data-i18n="hero-cta1">Connect in 30 seconds</a>
+    <a href="#proof" class="btn btn-secondary" data-i18n="hero-cta2">See the benchmark ↓</a>
+  </div>
+  <p class="hero-note" data-i18n="hero-note" data-i18n-html="1">
+    <span class="dot"></span>Live at <span class="key">mcp.example4.ai</span> · Free · No API key · No install
+  </p>
+</div>
+</section>
+
+<!-- STATS (live) -->
+<section id="stats">
+<div class="container">
+  <div class="stats">
+    <div class="fade-in">
+      <div class="stat-num" data-target="547" data-suffix="+" data-stat-key="repos">0</div>
+      <div class="stat-label" data-i18n="stat1-label">Libraries indexed</div>
+    </div>
+    <div class="fade-in">
+      <div class="stat-num" data-target="9145" data-suffix="" data-stat-key="projects">0</div>
+      <div class="stat-label" data-i18n="stat2-label">Projects navigable</div>
+    </div>
+    <div class="fade-in">
+      <div class="stat-num" data-target="17" data-suffix="">0</div>
+      <div class="stat-label" data-i18n="stat3-label">MCP tools</div>
+    </div>
+    <div class="fade-in">
+      <div class="stat-num" data-target="10" data-suffix="" data-stat-key="languages">0</div>
+      <div class="stat-label" data-i18n="stat4-label">Languages</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- HOW IT WORKS (3 steps) -->
+<section id="how">
+<div class="container">
+  <div class="fade-in">
+    <div class="section-label" data-i18n="how-label">How it works</div>
+    <h2 class="section-title" data-i18n="how-title">Three calls. Done.</h2>
+  </div>
+  <div class="steps">
+    <div class="step fade-in">
+      <div class="step-num">01</div>
+      <div class="step-title" data-i18n="how1-title">Search a symbol</div>
+      <div class="step-desc" data-i18n="how1-desc">Find a class, function, or method by name in any indexed library.</div>
+<pre><span class="ck">xmp4_search</span>(
+  <span class="cs">"tokio/tokio"</span>, <span class="cs">"spawn"</span>)</pre>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">02</div>
+      <div class="step-title" data-i18n="how2-title">See the callers</div>
+      <div class="step-desc" data-i18n="how2-desc">Get type-resolved call sites. Not grep. Not approximate.</div>
+<pre><span class="ck">xmp4_callers</span>(
+  <span class="cs">"tokio::task::spawn"</span>)</pre>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">03</div>
+      <div class="step-title" data-i18n="how3-title">Get the source</div>
+      <div class="step-desc" data-i18n="how3-desc">Full method body + signature, ready to reason about.</div>
+<pre><span class="ck">xmp4_source</span>(
+  <span class="cs">"tokio::task::spawn"</span>)</pre>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PROOF -->
+<section id="proof">
+<div class="container">
+  <div class="fade-in">
+    <div class="section-label" data-i18n="proof-label">Benchmark</div>
+    <h2 class="section-title" data-i18n="proof-title">42× cheaper than the alternative.</h2>
+  </div>
+  <div class="proof-wrap fade-in">
+    <div class="proof-big">42×</div>
+    <div class="proof-big-sub" data-i18n="proof-big-sub">Fewer tokens to get the same answer</div>
+    <div class="proof-detail" data-i18n="proof-detail" data-i18n-html="1">
+      Measured over 4 tier-1 big OSS libraries — <code>spring-boot</code>, <code>tokio</code>, <code>django</code>, <code>efcore</code> — asking <em>"give me the signature, body, and real callers of X."</em><br><br>
+      <strong>xmp4</strong>: 1,558 tokens · <strong>GitMCP</strong>: 65,629 tokens to converge to the same answer.
+    </div>
+    <a href="https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/benchmarks/WHITEPAPER.md" class="proof-link" data-i18n="proof-link">Read the whitepaper →</a>
+  </div>
+</div>
+</section>
+
+<!-- QUICKSTART -->
+<section id="quickstart">
+<div class="container">
+  <div class="quickstart fade-in">
+    <div class="section-label" data-i18n="quickstart-label">Get started</div>
+    <h2 class="section-title" data-i18n="quickstart-title">Add one line. Done.</h2>
+    <p class="quickstart-sub" data-i18n="quickstart-sub">Paste into your MCP client config. No account. No key.</p>
+<pre><span class="cc">// Claude Desktop, Cursor, VS Code (any MCP-capable client)</span>
+<span class="cs">"xmp4"</span>: {
+  <span class="ck">"type"</span>: <span class="cs">"http"</span>,
+  <span class="ck">"url"</span>: <span class="cs">"https://mcp.example4.ai/mcp"</span>
+}</pre>
+    <p class="quickstart-clients" data-i18n="quickstart-clients" data-i18n-html="1">
+      <a href="https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/connect-instructions.md">Full setup guide →</a>
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="footer-brand">xmp4 · example4.ai · A product by 0ics srl · Bologna, Italy</div>
+<div class="footer-links">
+  <a href="https://github.com/0ics-srls/lsai-xmp4.public">Public docs</a>
+  <a href="https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/benchmarks/WHITEPAPER.md">Benchmark</a>
+  <a href="https://github.com/LadislavSopko/lsai-protocol">LSAI protocol</a>
+  <a href="https://github.com/0ics-srls/lsai-xmp4.public/issues/new?template=request-repo.yml">Request a library</a>
+</div>
+<div class="footer-disclaimer" data-i18n="disclaimer" data-i18n-html="1">
+  xmp4 builds on <a href="https://github.com/sourcegraph/scip">SCIP</a>, an open code-indexing format released by Sourcegraph under the Apache 2.0 License.
+  xmp4 is an independent product by 0ics srl and is not affiliated with, endorsed by, or sponsored by Sourcegraph.
+  Indexed OSS libraries remain property of their respective authors under their original licenses — see
+  <a href="https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/privacy.md">privacy &amp; attribution</a>.
+</div>
+<div class="footer-copy">© 2026 0ics srl. All rights reserved.</div>
+</footer>
+
+<script>
+// ===== i18n =====
+var T = {
+en: {
+  "headline": "See inside open source.",
+  "hero-sub": "A pre-indexed MCP server for <span class=\"live\" data-stat-text=\"repos\">547</span>+ OSS libraries across <span class=\"live\" data-stat-text=\"languages\">10</span> languages.<br>Real callers, real types, real source — in <strong>3 tool calls</strong>.",
+  "hero-cta1": "Connect in 30 seconds",
+  "hero-cta2": "See the benchmark ↓",
+  "hero-note": "<span class=\"dot\"></span>Live at <span class=\"key\">mcp.example4.ai</span> · Free · No API key · No install",
+  "stat1-label": "Libraries indexed",
+  "stat2-label": "Projects navigable",
+  "stat3-label": "MCP tools",
+  "stat4-label": "Languages",
+  "how-label": "How it works",
+  "how-title": "Three calls. Done.",
+  "how1-title": "Search a symbol",
+  "how1-desc": "Find a class, function, or method by name in any indexed library.",
+  "how2-title": "See the callers",
+  "how2-desc": "Get type-resolved call sites. Not grep. Not approximate.",
+  "how3-title": "Get the source",
+  "how3-desc": "Full method body + signature, ready to reason about.",
+  "proof-label": "Benchmark",
+  "proof-title": "42× cheaper than the alternative.",
+  "proof-big-sub": "Fewer tokens to get the same answer",
+  "proof-detail": "Measured over 4 tier-1 big OSS libraries — <code>spring-boot</code>, <code>tokio</code>, <code>django</code>, <code>efcore</code> — asking <em>\"give me the signature, body, and real callers of X.\"</em><br><br><strong>xmp4</strong>: 1,558 tokens · <strong>GitMCP</strong>: 65,629 tokens to converge to the same answer.",
+  "proof-link": "Read the whitepaper →",
+  "quickstart-label": "Get started",
+  "quickstart-title": "Add one line. Done.",
+  "quickstart-sub": "Paste into your MCP client config. No account. No key.",
+  "quickstart-clients": "<a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/connect-instructions.md\">Full setup guide →</a>",
+  "disclaimer": "xmp4 builds on <a href=\"https://github.com/sourcegraph/scip\">SCIP</a>, an open code-indexing format released by Sourcegraph under the Apache 2.0 License. xmp4 is an independent product by 0ics srl and is not affiliated with, endorsed by, or sponsored by Sourcegraph. Indexed OSS libraries remain property of their respective authors under their original licenses — see <a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/privacy.md\">privacy &amp; attribution</a>."
+},
+it: {
+  "headline": "Guarda dentro l'open source.",
+  "hero-sub": "Un server MCP pre-indicizzato su <span class=\"live\" data-stat-text=\"repos\">547</span>+ librerie OSS in <span class=\"live\" data-stat-text=\"languages\">10</span> linguaggi.<br>Caller reali, tipi reali, sorgente reale — in <strong>3 chiamate</strong>.",
+  "hero-cta1": "Connetti in 30 secondi",
+  "hero-cta2": "Vedi il benchmark ↓",
+  "hero-note": "<span class=\"dot\"></span>Live su <span class=\"key\">mcp.example4.ai</span> · Gratis · Nessuna API key · Nessun install",
+  "stat1-label": "Librerie indicizzate",
+  "stat2-label": "Progetti navigabili",
+  "stat3-label": "Tool MCP",
+  "stat4-label": "Linguaggi",
+  "how-label": "Come funziona",
+  "how-title": "Tre chiamate. Fatto.",
+  "how1-title": "Cerca un simbolo",
+  "how1-desc": "Trova una classe, funzione o metodo per nome in qualsiasi libreria indicizzata.",
+  "how2-title": "Vedi i caller",
+  "how2-desc": "Call site risolti dal compiler. Non grep. Non approssimato.",
+  "how3-title": "Leggi il sorgente",
+  "how3-desc": "Body completo del metodo + firma, pronto per ragionarci.",
+  "proof-label": "Benchmark",
+  "proof-title": "42× piu' economico dell'alternativa.",
+  "proof-big-sub": "Meno token per la stessa risposta",
+  "proof-detail": "Misurato su 4 librerie OSS tier-1 — <code>spring-boot</code>, <code>tokio</code>, <code>django</code>, <code>efcore</code> — chiedendo <em>\"dammi firma, body e caller reali di X.\"</em><br><br><strong>xmp4</strong>: 1.558 token · <strong>GitMCP</strong>: 65.629 token per arrivare alla stessa risposta.",
+  "proof-link": "Leggi il whitepaper →",
+  "quickstart-label": "Inizia subito",
+  "quickstart-title": "Aggiungi una riga. Fatto.",
+  "quickstart-sub": "Incolla nella config del tuo client MCP. Senza account. Senza key.",
+  "quickstart-clients": "<a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/connect-instructions.md\">Guida completa →</a>",
+  "disclaimer": "xmp4 si basa su <a href=\"https://github.com/sourcegraph/scip\">SCIP</a>, un formato aperto di indicizzazione del codice rilasciato da Sourcegraph sotto licenza Apache 2.0. xmp4 e' un prodotto indipendente di 0ics srl e non e' affiliato, approvato o sponsorizzato da Sourcegraph. Le librerie OSS indicizzate restano proprieta' dei rispettivi autori sotto le licenze originali — vedi <a href=\"https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/privacy.md\">privacy &amp; attribution</a>."
+}};
+
+var currentLang = localStorage.getItem("e4lang") || "en";
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem("e4lang", lang);
+  document.documentElement.lang = lang;
+  var strings = T[lang];
+  document.querySelectorAll("[data-i18n]").forEach(function(el) {
+    var key = el.getAttribute("data-i18n");
+    if (strings[key]) {
+      if (el.hasAttribute("data-i18n-html")) el.innerHTML = strings[key];
+      else el.textContent = strings[key];
+    }
+  });
+  document.querySelectorAll(".lang-switch button").forEach(function(b) {
+    b.classList.toggle("active", b.textContent === lang.toUpperCase());
+  });
+  typeHeadline(strings["headline"]);
+}
+
+// Typing effect
+var typeTimer = null;
+function typeHeadline(text) {
+  var target = document.getElementById("typed-target");
+  if (typeTimer) clearTimeout(typeTimer);
+  var i = 0;
+  target.innerHTML = '<span class="cursor"></span>';
+  function step() {
+    if (i < text.length) {
+      target.innerHTML = text.slice(0, i + 1) + '<span class="cursor"></span>';
+      i++;
+      typeTimer = setTimeout(step, i === 1 ? 300 : 45 + Math.random() * 30);
+    }
+  }
+  typeTimer = setTimeout(step, 200);
+}
+setLang(currentLang);
+
+// Fade-in on scroll
+(function(){
+  var els = document.querySelectorAll(".fade-in");
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); } });
+  }, {threshold: 0.15});
+  els.forEach(function(el){ obs.observe(el); });
+})();
+
+// Particles (reactive to mouse)
+(function(){
+  var canvas = document.getElementById("particles");
+  if (!canvas) return;
+  var ctx = canvas.getContext("2d");
+  var particles = [];
+  var mouse = {x: -9999, y: -9999};
+  function resize(){ canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  resize(); window.addEventListener("resize", resize);
+  canvas.parentElement.addEventListener("mousemove", function(e){
+    var rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+  });
+  canvas.parentElement.addEventListener("mouseleave", function(){ mouse.x = -9999; mouse.y = -9999; });
+  for (var i = 0; i < 60; i++) particles.push({
+    x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+    vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, r: Math.random()*1.5 + 0.5
+  });
+  function tick(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(function(p){
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      var dx = p.x - mouse.x, dy = p.y - mouse.y, dist = Math.sqrt(dx*dx+dy*dy);
+      if (dist < 120) { p.vx += dx/dist*0.05; p.vy += dy/dist*0.05; }
+      p.vx *= 0.98; p.vy *= 0.98;
+      ctx.fillStyle = "rgba(245,158,11," + (dist < 200 ? 0.5 : 0.15) + ")";
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+    });
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+// Live stats + animated counters + i18n rewrite
+(function(){
+  var nums = document.querySelectorAll("[data-target]");
+  function animate(el){
+    var target = parseInt(el.dataset.target);
+    var suffix = el.dataset.suffix || "";
+    var start = 0, duration = 1400, startTime = null;
+    function step(ts){
+      if(!startTime) startTime = ts;
+      var p = Math.min((ts - startTime) / duration, 1);
+      var ease = 1 - Math.pow(1 - p, 3);
+      var val = Math.round(start + (target - start) * ease);
+      el.textContent = val.toLocaleString() + suffix;
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  function startObserver(){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { obs.unobserve(e.target); animate(e.target); } });
+    }, {threshold: 0.5});
+    nums.forEach(function(n){ obs.observe(n); });
+  }
+  fetch("https://dashboard.example4.ai/api/stats", { cache: "no-store" })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(s){
+      if(!s) return;
+      var langCount = s.Languages ? Object.keys(s.Languages).length : 0;
+      // Update stat-section data-target
+      document.querySelectorAll('[data-stat-key="repos"]').forEach(function(el){ el.dataset.target = s.Repos; });
+      document.querySelectorAll('[data-stat-key="projects"]').forEach(function(el){ el.dataset.target = s.Projects; });
+      if(langCount > 0) document.querySelectorAll('[data-stat-key="languages"]').forEach(function(el){ el.dataset.target = langCount; });
+      // Rewrite i18n tables so hero-sub inline live numbers stay consistent
+      if (typeof T !== "undefined" && typeof setLang === "function") {
+        var reposStr = s.Repos.toString();
+        var langsStr = langCount > 0 ? langCount.toString() : "10";
+        for (var lang in T) {
+          for (var key in T[lang]) {
+            if (typeof T[lang][key] === "string") {
+              T[lang][key] = T[lang][key]
+                .replace(/data-stat-text="repos">\d+</g, 'data-stat-text="repos">' + reposStr + '<')
+                .replace(/data-stat-text="languages">\d+</g, 'data-stat-text="languages">' + langsStr + '<');
+            }
+          }
+        }
+        setLang(currentLang);
+      }
+    })
+    .catch(function(){})
+    .finally(startObserver);
+})();
+</script>
+
+</body>
+</html>

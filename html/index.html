@@ -872,10 +872,29 @@ setLang(currentLang);
     .then(function(s){
       if(!s) return;
       var langCount = s.Languages ? Object.keys(s.Languages).length : 0;
+
+      // 1) Update stat-section data-target (animated counters)
       document.querySelectorAll('[data-stat-key="repos"]').forEach(function(el){ el.dataset.target = s.Repos; });
       document.querySelectorAll('[data-stat-key="projects"]').forEach(function(el){ el.dataset.target = s.Projects; });
       if(langCount > 0)
         document.querySelectorAll('[data-stat-key="languages"]').forEach(function(el){ el.dataset.target = langCount; });
+
+      // 2) Rewrite i18n tables so hero-sub/hero-note/solution-desc use live numbers
+      //    (static copy uses "547" and "10 languages" as placeholders)
+      if (typeof T !== "undefined" && typeof setLang === "function") {
+        var reposStr = s.Repos.toString();
+        var langsStr = langCount > 0 ? langCount + " languages" : "10 languages";
+        for (var lang in T) {
+          for (var key in T[lang]) {
+            if (typeof T[lang][key] === "string") {
+              T[lang][key] = T[lang][key]
+                .replace(/\b547\b/g, reposStr)
+                .replace(/\b10 languages\b/g, langsStr);
+            }
+          }
+        }
+        setLang(currentLang);
+      }
     })
     .catch(function(){ /* keep static fallback */ })
     .finally(startObserver);
