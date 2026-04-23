@@ -22,7 +22,7 @@
 
 ## The 30-second pitch
 
-Your AI coding agent is burning tokens grepping OSS libraries it will barely use. **xmp4** is a hosted MCP server that pre-indexes 547 popular open-source libraries with **SCIP** — the semantic code format Sourcegraph uses — and serves them through 17 tools. No clone. No grep. No false positives.
+Your AI coding agent is burning tokens grepping OSS libraries it will barely use. **xmp4** is a hosted MCP server that pre-indexes 856 popular open-source libraries with **SCIP** — the semantic code format Sourcegraph uses — and serves them through 17 tools. No clone. No grep. No false positives.
 
 ```text
 ASK: "Who calls Flask.wsgi_app in the flask repo and what does it do?"
