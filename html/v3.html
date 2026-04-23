@@ -70,7 +70,7 @@ section{padding:88px 0;position:relative;z-index:1}
 
 /* === Hero graph visual === */
 .hero-visual{position:relative;min-height:380px}
-.graph-frame{background:var(--bg-card);border:1px solid #222;border-radius:12px;padding:20px;position:relative;overflow:hidden}
+.graph-frame{background:rgba(22,22,22,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid #2a2a2a;border-radius:12px;padding:20px;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .graph-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid #1f1f1f}
 .graph-header-title{font-family:var(--mono);font-size:.78rem;color:var(--text-dim)}
 .graph-header-dots{display:flex;gap:6px}
@@ -98,10 +98,25 @@ section{padding:88px 0;position:relative;z-index:1}
 .graph-footer .good{color:var(--green)}
 
 /* === STATS === */
-.stats-band{background:var(--bg-alt);border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;padding:42px 0}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;padding:20px 0}
 .stat-num{font-family:var(--mono);font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px}
 .stat-label{color:var(--text-dim);font-size:.85rem}
+
+/* === SCENARIO === */
+.scenario{background:var(--bg-card);border:1px solid #1f1f1f;border-radius:12px;padding:36px}
+.scenario-q{font-family:var(--mono);color:var(--accent);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.scenario-prompt{font-size:1.25rem;color:var(--text);margin-bottom:28px;line-height:1.45;font-weight:500}
+.scenario-prompt em{color:var(--accent);font-style:normal}
+.scenario-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:8px}
+.sc-col{background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;padding:18px;display:flex;flex-direction:column}
+.sc-col.winner{border-color:var(--accent);box-shadow:0 0 24px rgba(245,158,11,.08)}
+.sc-col h4{font-family:var(--mono);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.sc-col h4 .tag{font-size:.62rem;padding:2px 7px;border-radius:10px;background:#2a1a1a;color:var(--red);font-weight:600;letter-spacing:0}
+.sc-col.winner h4 .tag{background:rgba(34,197,94,.12);color:var(--green)}
+.sc-action{color:var(--text-dim);font-size:.85rem;margin-bottom:14px;line-height:1.5;flex:1}
+.sc-cost{font-family:var(--mono);font-size:.78rem;padding-top:12px;border-top:1px solid #1a1a1a;display:flex;justify-content:space-between;color:var(--text-dimmer)}
+.sc-cost strong{font-weight:700;color:var(--text)}
+.sc-col.winner .sc-cost strong{color:var(--accent)}
 
 /* === WHY === */
 .section-label{font-family:var(--mono);font-size:.76rem;color:var(--accent);text-transform:uppercase;letter-spacing:.14em;margin-bottom:12px}
@@ -147,6 +162,9 @@ section{padding:88px 0;position:relative;z-index:1}
 .bench-row.ctx7 .fill{background:linear-gradient(90deg,#3a2a4a,#a78bfa)}
 .bench-num{font-family:var(--mono);font-size:.88rem;font-weight:700;text-align:right;color:var(--text)}
 .bench-num .unit{color:var(--text-dimmer);font-weight:400}
+.bench-row.ctx7 .fill{background:repeating-linear-gradient(45deg,#3a2a4a 0,#3a2a4a 8px,#4a3a5a 8px,#4a3a5a 16px)}
+.bench-row.ctx7 .bench-num{color:var(--text-dim)}
+.bench-note{font-family:var(--mono);font-size:.7rem;color:var(--text-dimmer);margin-top:4px;font-style:italic}
 .bench-footer{margin-top:22px;padding-top:18px;border-top:1px solid #1f1f1f;font-size:.88rem;color:var(--text-dim)}
 .bench-footer strong{color:var(--accent);font-family:var(--mono)}
 
@@ -195,6 +213,8 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
   .why-grid{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,1fr)}
+  .scenario-grid{grid-template-columns:1fr;gap:12px}
+  .scenario{padding:24px 20px}
   .bench-row{grid-template-columns:100px 1fr 80px;gap:10px}
   .bench-label{font-size:.78rem}
   .langmat{font-size:.72rem;overflow-x:auto}
@@ -216,13 +236,14 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
   <button onclick="setLang('it')">IT</button>
 </div>
 
+<main role="main">
 <!-- HERO -->
-<section class="hero">
+<section class="hero" aria-labelledby="hero-title">
 <canvas id="particles"></canvas>
 <div class="hero-grid">
   <div>
     <div class="hero-logo">xmp4 · example4.ai</div>
-    <h1 class="hero-headline" data-i18n="headline" data-i18n-html="1">The MCP server that answers <span class="accent">like the compiler</span>.</h1>
+    <h1 class="hero-headline" id="hero-title" data-i18n="headline" data-i18n-html="1">The MCP server that answers <span class="accent">like the compiler</span>.</h1>
     <p class="hero-sub" data-i18n="hero-sub" data-i18n-html="1">
       Pre-indexed across <span class="live" data-stat-text="repos">547</span>+ OSS libraries and <span class="live" data-stat-text="languages">10</span> languages.
       Your AI agent gets <strong>type-resolved callers</strong>, <strong>real source</strong>, and <strong>cross-language hierarchies</strong> — in 3 MCP calls.
@@ -287,7 +308,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
 </section>
 
 <!-- STATS -->
-<section class="stats-band" style="padding:42px 0">
+<section aria-label="Live stats">
 <div class="container">
   <div class="stats">
     <div>
@@ -305,6 +326,40 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
     <div>
       <div class="stat-num" data-target="10" data-suffix="" data-stat-key="languages">0</div>
       <div class="stat-label" data-i18n="stat4">Languages</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SCENARIO: real problem walkthrough -->
+<section id="scenario" aria-labelledby="sc-title">
+<div class="container">
+  <div class="section-label" data-i18n="sc-label">Real scenario</div>
+  <h2 class="section-title" id="sc-title" data-i18n="sc-title">What it takes to answer one question.</h2>
+  <div class="scenario">
+    <div class="scenario-q" data-i18n="sc-qlabel">Developer asks their AI:</div>
+    <p class="scenario-prompt" data-i18n="sc-prompt" data-i18n-html="1">"In <em>spring-data-mongodb</em>, who actually calls <em>MongoTemplate.insertAll()</em>, and what does the method body look like?"</p>
+    <div class="scenario-grid" role="list">
+      <article class="sc-col winner" role="listitem">
+        <h4><span>xmp4</span><span class="tag" data-i18n="sc-tag-good">exact</span></h4>
+        <p class="sc-action" data-i18n="sc-xmp4-action"><code style="color:var(--accent);font-family:var(--mono);font-size:.82rem">xmp4_callers</code> → 12 real call sites across 4 repos (typed).<br><code style="color:var(--accent);font-family:var(--mono);font-size:.82rem">xmp4_source</code> → full method body with signature.</p>
+        <div class="sc-cost"><span>Cost</span><strong>~1,558 tokens · 2s</strong></div>
+      </article>
+      <article class="sc-col" role="listitem">
+        <h4><span>grep + clone</span><span class="tag" data-i18n="sc-tag-bad">noisy</span></h4>
+        <p class="sc-action" data-i18n="sc-grep-action">Clone 4 repos (~300 MB), grep for "insertAll", AI reads 50 files, half match unrelated types (List.insertAll, Cache.insertAll). Re-rank, discard, guess which are real.</p>
+        <div class="sc-cost"><span>Cost</span><strong>~47,200 tokens · minutes</strong></div>
+      </article>
+      <article class="sc-col" role="listitem">
+        <h4><span>GitMCP</span><span class="tag" data-i18n="sc-tag-bad">blind</span></h4>
+        <p class="sc-action" data-i18n="sc-gitmcp-action">Fast text search on GitHub — returns every string occurrence of "insertAll" in any context: tests, docs, comments, unrelated classes. No type filtering, AI must converge by trial.</p>
+        <div class="sc-cost"><span>Cost</span><strong>~65,629 tokens</strong></div>
+      </article>
+      <article class="sc-col" role="listitem">
+        <h4><span>Context7</span><span class="tag" data-i18n="sc-tag-bad">n/a</span></h4>
+        <p class="sc-action" data-i18n="sc-ctx7-action">Returns documentation snippets only. No source code, no call graph, no way to see who calls what. Works for reading about an API, not for reasoning about real code.</p>
+        <div class="sc-cost"><span>Cost</span><strong data-i18n="sc-ctx7-cost">can't answer</strong></div>
+      </article>
     </div>
   </div>
 </div>
@@ -385,26 +440,26 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
   <div class="bench">
     <div class="bench-title" data-i18n="bench-sub">Task (4 tier-1 libraries: spring-boot, tokio, django, efcore)</div>
     <div class="bench-task" data-i18n="bench-task">"Give me the signature, body, and real callers of X"</div>
-    <div class="bench-rows">
-      <div class="bench-row xmp4">
+    <div class="bench-rows" role="list" aria-label="Token cost comparison, lower is better">
+      <div class="bench-row xmp4" role="listitem">
         <div class="bench-label">xmp4</div>
-        <div class="bench-bar"><div class="fill" data-width="2.4"></div></div>
-        <div class="bench-num">1,558 <span class="unit">tok</span></div>
+        <div class="bench-bar" aria-label="1,558 tokens"><div class="fill" data-width="2.4"></div></div>
+        <div class="bench-num"><strong>1,558</strong> <span class="unit">tok</span></div>
       </div>
-      <div class="bench-row ctx7">
-        <div class="bench-label">Context7</div>
-        <div class="bench-bar"><div class="fill" data-width="100"></div></div>
-        <div class="bench-num" data-i18n="bench-ctx7">∞ <span class="unit">no source</span></div>
+      <div class="bench-row grep" role="listitem">
+        <div class="bench-label">grep + clone</div>
+        <div class="bench-bar" aria-label="47,200 tokens"><div class="fill" data-width="72"></div></div>
+        <div class="bench-num">47,200 <span class="unit">tok</span></div>
       </div>
-      <div class="bench-row gitmcp">
+      <div class="bench-row gitmcp" role="listitem">
         <div class="bench-label">GitMCP</div>
-        <div class="bench-bar"><div class="fill" data-width="100"></div></div>
+        <div class="bench-bar" aria-label="65,629 tokens"><div class="fill" data-width="100"></div></div>
         <div class="bench-num">65,629 <span class="unit">tok</span></div>
       </div>
-      <div class="bench-row grep">
-        <div class="bench-label">grep + clone</div>
-        <div class="bench-bar"><div class="fill" data-width="72"></div></div>
-        <div class="bench-num">47,200 <span class="unit">tok</span></div>
+      <div class="bench-row ctx7" role="listitem">
+        <div class="bench-label">Context7</div>
+        <div class="bench-bar" aria-label="Cannot answer: documentation only, no source code"><div class="fill" data-width="100"></div></div>
+        <div class="bench-num" data-i18n="bench-ctx7">n/a <span class="unit">no source</span></div>
       </div>
     </div>
     <div class="bench-footer" data-i18n="bench-footer" data-i18n-html="1">
@@ -489,8 +544,10 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
 </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
-<footer>
+<footer role="contentinfo">
 <div class="footer-brand">xmp4 · example4.ai · A product by 0ics srl · Bologna, Italy</div>
 <div class="footer-links">
   <a href="https://github.com/0ics-srls/lsai-xmp4.public">Public docs</a>
@@ -522,6 +579,17 @@ en: {
   "stat2": "Projects navigable",
   "stat3": "MCP tools",
   "stat4": "Languages",
+  "sc-label": "Real scenario",
+  "sc-title": "What it takes to answer one question.",
+  "sc-qlabel": "Developer asks their AI:",
+  "sc-prompt": "\"In <em>spring-data-mongodb</em>, who actually calls <em>MongoTemplate.insertAll()</em>, and what does the method body look like?\"",
+  "sc-tag-good": "exact",
+  "sc-tag-bad": "noisy",
+  "sc-xmp4-action": "<code style=\"color:var(--accent);font-family:var(--mono);font-size:.82rem\">xmp4_callers</code> → 12 real call sites across 4 repos (typed).<br><code style=\"color:var(--accent);font-family:var(--mono);font-size:.82rem\">xmp4_source</code> → full method body with signature.",
+  "sc-grep-action": "Clone 4 repos (~300 MB), grep for \"insertAll\", AI reads 50 files, half match unrelated types (List.insertAll, Cache.insertAll). Re-rank, discard, guess which are real.",
+  "sc-gitmcp-action": "Fast text search on GitHub — returns every string occurrence of \"insertAll\" in any context: tests, docs, comments, unrelated classes. No type filtering, AI must converge by trial.",
+  "sc-ctx7-action": "Returns documentation snippets only. No source code, no call graph, no way to see who calls what. Works for reading about an API, not for reasoning about real code.",
+  "sc-ctx7-cost": "can't answer",
   "why-label": "Why it matters",
   "why-title": "Your AI either has the compiler's view — or it's guessing.",
   "without": "Without xmp4",
@@ -587,6 +655,17 @@ it: {
   "stat2": "Progetti navigabili",
   "stat3": "Tool MCP",
   "stat4": "Linguaggi",
+  "sc-label": "Scenario reale",
+  "sc-title": "Cosa serve per rispondere a una domanda.",
+  "sc-qlabel": "Il developer chiede al suo AI:",
+  "sc-prompt": "\"In <em>spring-data-mongodb</em>, chi chiama davvero <em>MongoTemplate.insertAll()</em>, e come e' fatto il body del metodo?\"",
+  "sc-tag-good": "preciso",
+  "sc-tag-bad": "rumoroso",
+  "sc-xmp4-action": "<code style=\"color:var(--accent);font-family:var(--mono);font-size:.82rem\">xmp4_callers</code> → 12 call site reali in 4 repo (tipati).<br><code style=\"color:var(--accent);font-family:var(--mono);font-size:.82rem\">xmp4_source</code> → body completo del metodo con firma.",
+  "sc-grep-action": "Clona 4 repo (~300 MB), grep per \"insertAll\", AI legge 50 file, meta' matchano tipi diversi (List.insertAll, Cache.insertAll). Re-rank, scarta, indovina quali sono reali.",
+  "sc-gitmcp-action": "Text search veloce su GitHub — ritorna ogni occorrenza di stringa \"insertAll\" in qualsiasi contesto: test, doc, commenti, classi non correlate. Nessun filtro per tipo, l'AI deve convergere per tentativi.",
+  "sc-ctx7-action": "Ritorna solo snippet di documentazione. Nessun codice sorgente, nessun call graph, nessun modo di vedere chi chiama cosa. Va bene per leggere un'API, non per ragionare su codice reale.",
+  "sc-ctx7-cost": "non risponde",
   "why-label": "Perche' conta",
   "why-title": "O il tuo AI ha la vista del compilatore — o sta tirando a indovinare.",
   "without": "Senza xmp4",
@@ -739,6 +818,9 @@ document.querySelectorAll(".faq-item").forEach(function(item){
     }, {threshold: 0.3});
     document.querySelectorAll(".bench-bar .fill").forEach(function(f){ obs.observe(f); });
   }
+  // Observers run IMMEDIATELY (independent of fetch) so bars + counters work even offline
+  observeCounters();
+  observeBars();
   fetch("https://dashboard.example4.ai/api/stats", { cache: "no-store" })
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(s){
@@ -762,8 +844,7 @@ document.querySelectorAll(".faq-item").forEach(function(item){
         setLang(currentLang);
       }
     })
-    .catch(function(){})
-    .finally(function(){ observeCounters(); observeBars(); });
+    .catch(function(){});
 })();
 </script>
 </body>
