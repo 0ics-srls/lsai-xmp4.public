@@ -3,12 +3,13 @@
 # xmp4
 
 ### Stop grepping library source.
-### Your AI gets the compiler's view of **547 OSS libraries** via MCP.
+### Your AI gets the compiler's view of **856 OSS libraries** via MCP.
 
-[![live](https://img.shields.io/badge/mcp.example4.ai-live%20v1.1.3-22c55e?style=flat-square)](https://mcp.example4.ai/mcp)
+[![live](https://img.shields.io/badge/mcp.example4.ai-live%20v1.2.1-22c55e?style=flat-square)](https://mcp.example4.ai/mcp)
+[![registry](https://img.shields.io/badge/Official%20MCP%20Registry-ai.example4%2Fxmp4-f59e0b?style=flat-square)](https://registry.modelcontextprotocol.io/v0/servers?search=xmp4)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-Streamable%20HTTP-f59e0b?style=flat-square)](https://modelcontextprotocol.io)
-[![repos](https://img.shields.io/badge/libraries-547%20indexed-f59e0b?style=flat-square)](#language-coverage)
+[![repos](https://img.shields.io/badge/libraries-856%20indexed-f59e0b?style=flat-square)](#language-coverage)
 [![vs GitMCP](https://img.shields.io/badge/vs%20GitMCP-42%C3%97%20fewer%20tokens-f59e0b?style=flat-square)](docs/benchmarks/WHITEPAPER.md)
 
 **Real callers. Real source. Real hierarchy. In 3 tool calls.**
@@ -62,17 +63,33 @@ Same realistic question on spring-boot · tokio · django · efcore: *"give me t
 ## Connect in 30 seconds
 
 ```jsonc
-// Claude Code — ~/.claude/mcp.json
+// Claude Code / Cursor / Claude Desktop — project `.mcp.json` or client config
 {
   "mcpServers": {
     "xmp4": {
-      "transport": { "type": "http", "url": "https://mcp.example4.ai/mcp" }
+      "type": "http",
+      "url": "https://mcp.example4.ai/mcp"
     }
   }
 }
 ```
 
-Restart your client. Then try (every step verified live 2026-04-20):
+(The ready-to-paste config also lives at [`.mcp.json`](.mcp.json) in this repo.)
+
+### Teach Claude how to use xmp4 (optional but recommended)
+
+Install the xmp4 skill once per version — Claude will pick the cheapest tool path automatically (tests_for + view over grep):
+
+```bash
+# Claude Code
+mkdir -p ~/.claude/skills/xmp4 && \
+  curl -sfL https://example4.ai/xmp4-skill.md -o ~/.claude/skills/xmp4/SKILL.md
+
+# Other clients: just tell Claude to read the URL when using xmp4 tools
+#   https://example4.ai/xmp4-skill.md
+```
+
+Restart your client. Then try (every step verified live 2026-04-24):
 
 > *"Using xmp4, find the Flask class in `flask/Flask` and list its usages."*
 
@@ -91,7 +108,7 @@ You should see `Type Flask src/flask/app.py:81` and 165 usages across 33 result 
 `xmp4_view` (raw file excerpt by line range) · `xmp4_grep` (server-side regex when semantics isn't enough)
 
 **Meta**
-`xmp4_guide` (**always call first** in a new session — returns the prescribed workflow for the running server version) · `xmp4_server` (version + stats)
+`xmp4_guide` (returns a **versioned skill pointer** to `https://example4.ai/xmp4-skill.md` — fetch once per version and save as a local Claude Code skill; embeds a minimal cheatsheet as offline fallback) · `xmp4_server` (version + stats)
 
 ## Language coverage
 
@@ -105,7 +122,7 @@ Every known limitation — empty `hierarchy.base` on TS/Rust/Java/PHP, Python cr
 
 ## Coverage grows by demand, not by guesswork
 
-The index currently holds 547 repositories / 9 145 SCIP-indexed projects. We add new libraries based on two signals, combined:
+The index currently holds 856 repositories / 15 921 SCIP-indexed projects. We add new libraries based on two signals, combined:
 
 1. **Aggregate query logs** — symbol names and project filters, no PII, no user code. If many AI agents search for a library we don't have, we see it.
 2. **Your request** — [file a repo-request issue](../../issues/new?template=request-repo.yml) with the GitHub URL, the language, and one concrete query you want to run. A single user request + downstream query demand almost always means **indexed within days**.
@@ -122,9 +139,12 @@ Full detail → [`docs/privacy.md`](docs/privacy.md).
 
 ## Status
 
-- 🟢 **Live** — `mcp.example4.ai` v1.1.3 · 547 repos · 9 145 projects · 17 tools · 10 languages
+- 🟢 **Live** — `mcp.example4.ai` v1.2.1 · 856 repos · 15 921 projects · 17 tools · 11 languages
 - 🟢 **Benchmark published** — [reproducible whitepaper with Python harness](docs/benchmarks/WHITEPAPER.md)
-- 🔧 **MCP registry submissions** — in progress (Official Registry, Smithery, Cursor Directory, MCP.so, PulseMCP)
+- 🟢 **Listed on the Official MCP Registry** as [`ai.example4/xmp4`](https://registry.modelcontextprotocol.io/v0/servers?search=xmp4) (DNS-authed on `example4.ai`)
+- 🟢 **Smithery** — [smithery.ai/servers/0ics-srl/xmp4](https://smithery.ai/servers/0ics-srl/xmp4)
+- 🟢 **Cursor Directory** — [cursor.directory/plugins/lsai-xmp4public](https://cursor.directory/plugins/lsai-xmp4public)
+- 🔧 **More registry submissions in flight** — MCP.so, mcpservers.org, partnerships@github.com, awesome-lists (PRs open on punkpeye/jaw9c/appcypher)
 - 🔧 **Demand-driven growth loop** — in progress
 
 ## What's in this repository
@@ -136,6 +156,9 @@ Full detail → [`docs/privacy.md`](docs/privacy.md).
 | [`docs/tiers-and-quirks.md`](docs/tiers-and-quirks.md) | Language tier matrix + every known limitation, verbatim |
 | [`docs/privacy.md`](docs/privacy.md) | What we log, what we don't, GDPR contact |
 | [`docs/request-repo.md`](docs/request-repo.md) | How the demand-driven queue actually works |
+| [`.mcp.json`](.mcp.json) | Ready-to-paste MCP client config (`type: http`, URL) |
+| [`skills/xmp4/SKILL.md`](skills/xmp4/SKILL.md) | Claude Code skill — workflow, cost budget, grep policy, common mistakes |
+| [`html/xmp4-skill.md`](html/xmp4-skill.md) | Same skill, served publicly at `https://example4.ai/xmp4-skill.md` |
 | [`server.json`](server.json) | Official MCP Registry manifest (DNS-authed `ai.example4/xmp4`) |
 | [`glama.json`](glama.json) | Glama catalog auto-index hook |
 | [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE/) | Bug · feature-request · **request-repo** templates |
