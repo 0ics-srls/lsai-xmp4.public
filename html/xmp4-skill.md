@@ -14,6 +14,44 @@ The primary value is this: instead of guessing from signatures or docs, you
 can instantly find the real tests and call sites that exercise a symbol,
 then read them. That is where idiomatic usage patterns actually live.
 
+## Project id contract — read this first
+
+Every xmp4 data tool takes a `project` argument. That argument is a
+**project id** produced by xmp4's indexing pipeline — not a GitHub URL,
+not an npm slug, not a package name.
+
+The shape is derived from the upstream git coordinates, typically
+`<org>/<repo>` for a single-project repo (e.g. `django/Django`,
+`flask/Flask`, `fastapi/fastapi`), or `<org>/<subproject>` for a
+monorepo member (e.g. `graphql-platform/HotChocolate.Core`,
+`runtime/System.Collections.Tests`). A reasoned guess often works on
+the first try.
+
+But **case is preserved** as the indexer stored it (`django/Django`,
+not `django/django`), monorepos may use **curated naming**
+(`aws-sdk-go-v2-curated/aws-sdk-go-v2`, not `aws-sdk-go-v2/*`), and
+the **segmentation** may not be obvious. If your guess is rejected
+with `project_id_not_found`, **do not iterate variations**. Instead:
+
+```
+xmp4_projects(query="<keyword>")   # one call — returns authoritative ids
+```
+
+Copy an id verbatim from the result, then retry your original call
+with it.
+
+## Session reuse — do not re-discover
+
+Once `xmp4_projects` returns an id, **keep it in your working memory
+for the rest of this conversation**. For every subsequent xmp4 tool
+about the same library, reuse the id verbatim. Re-discover only when
+you switch to a different library.
+
+Calling `xmp4_projects` for the same keyword twice in the same session
+wastes round-trips on the server we operate for you. If your client
+supports per-workspace persistent memory, you can also save discovered
+ids there to skip discovery in future sessions.
+
 ## Golden path — follow this
 
 Whenever a user question can be answered by reading a library's source,
