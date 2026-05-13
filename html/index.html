@@ -67,6 +67,38 @@ section{padding:88px 0;position:relative;z-index:1}
 .hero-note{font-family:var(--mono);font-size:.78rem;color:var(--text-dimmer)}
 .hero-note .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:8px;vertical-align:middle;box-shadow:0 0 8px var(--green)}
 
+/* === Hero graph visual === */
+.hero-visual{max-width:640px;margin:48px auto 0;position:relative}
+.graph-frame{background:rgba(22,22,22,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid #2a2a2a;border-radius:12px;padding:20px;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.graph-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid #1f1f1f}
+.graph-header-title{font-family:var(--mono);font-size:.78rem;color:var(--text-dim)}
+.graph-header-dots{display:flex;gap:6px}
+.graph-header-dots span{width:10px;height:10px;border-radius:50%;background:#1a1a1a}
+.graph-header-dots span:first-child{background:#ef4444}
+.graph-header-dots span:nth-child(2){background:#f59e0b}
+.graph-header-dots span:nth-child(3){background:#22c55e}
+.graph-cmd{font-family:var(--mono);font-size:.82rem;margin-bottom:16px;color:var(--text)}
+.graph-cmd .p{color:var(--text-dimmer)}
+.graph-cmd .fn{color:var(--accent)}.graph-cmd .fn2{color:var(--cyan)}
+.graph-cmd .str{color:var(--green)}
+.graph-svg{width:100%;height:260px;display:block}
+.gnode{transition:all .3s ease}
+.gnode circle{fill:var(--bg-card-hov);stroke:var(--accent-dim);stroke-width:1.5;transition:all .3s}
+.gnode.central circle{fill:var(--accent);stroke:var(--accent);r:34;filter:drop-shadow(0 0 14px var(--accent-glow))}
+.gnode.lsai-node circle{fill:rgba(34,211,238,.15);stroke:var(--cyan);stroke-width:1.5}
+.gnode text{font-family:var(--mono);font-size:10px;fill:var(--text);pointer-events:none;text-anchor:middle}
+.gnode.central text{fill:#000;font-weight:700;font-size:10px}
+.gnode:hover circle{stroke:var(--accent);filter:drop-shadow(0 0 10px var(--accent-glow))}
+.gnode.lsai-node:hover circle{stroke:var(--cyan);filter:drop-shadow(0 0 10px var(--cyan-glow))}
+.gedge{stroke:#333;stroke-width:1.5;fill:none;stroke-dasharray:4 4;animation:dash 20s linear infinite}
+.gedge.lsai-edge{stroke:rgba(34,211,238,.3)}
+@keyframes dash{to{stroke-dashoffset:-200}}
+.glabel{font-family:var(--mono);font-size:9px;fill:var(--text-dimmer)}
+.pulse{animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{filter:drop-shadow(0 0 6px var(--accent-glow))}50%{filter:drop-shadow(0 0 18px var(--accent))}}
+.graph-footer{margin-top:14px;padding-top:12px;border-top:1px solid #1f1f1f;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.75rem;color:var(--text-dim)}
+.graph-footer .good{color:var(--green)}
+
 /* === TANDEM === */
 .tandem{display:grid;grid-template-columns:1fr 80px 1fr;gap:0;align-items:stretch}
 .tandem-card{background:var(--bg-card);border:1px solid #222;border-radius:12px;padding:32px 28px;position:relative}
@@ -202,6 +234,75 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
     <a href="#tandem" class="btn btn-secondary">See how they work together &darr;</a>
   </div>
   <p class="hero-note"><span class="dot"></span>Both free &middot; Both open protocol (MCP) &middot; Work with Claude Code, Cursor, VS Code</p>
+
+  <!-- Hero visual: tandem graph -->
+  <div class="hero-visual">
+    <div class="graph-frame">
+      <div class="graph-header">
+        <div class="graph-header-title">the tandem in one picture</div>
+        <div class="graph-header-dots"><span></span><span></span><span></span></div>
+      </div>
+      <div class="graph-cmd"><span class="p">&rarr;</span> <span class="fn2">lsai_callees</span>(<span class="str">"PublishAsync"</span>) &rarr; <span class="fn">xmp4_source</span>(<span class="str">"GetRequiredService"</span>)</div>
+      <svg class="graph-svg" viewBox="0 0 580 260" xmlns="http://www.w3.org/2000/svg">
+        <!-- LSAI side edges (cyan) -->
+        <path class="gedge lsai-edge" d="M200 130 Q 120 60 60 55" />
+        <path class="gedge lsai-edge" d="M200 130 Q 120 200 60 205" />
+        <!-- xmp4 side edges (amber) -->
+        <path class="gedge" d="M380 130 Q 460 60 520 55" />
+        <path class="gedge" d="M380 130 Q 460 200 520 205" />
+        <!-- Bridge edge -->
+        <path class="gedge" d="M234 130 L 346 130" stroke-width="2" stroke="rgba(255,255,255,.15)" />
+        <text class="glabel" x="290" y="122" text-anchor="middle" fill="var(--text-dimmer)">calls</text>
+
+        <!-- Central: your code (LSAI, cyan) -->
+        <g class="gnode lsai-node pulse" transform="translate(200,130)">
+          <circle r="32" style="fill:rgba(34,211,238,.2);stroke:var(--cyan)"/>
+          <text y="-4" fill="var(--cyan)">PublishAsync</text>
+          <text y="10" fill="var(--text-dimmer)" font-size="8">your code</text>
+        </g>
+        <!-- Central: library (xmp4, amber) -->
+        <g class="gnode central pulse" transform="translate(380,130)">
+          <circle r="32"/>
+          <text y="-4">GetRequired</text>
+          <text y="10" font-size="8">Service</text>
+        </g>
+
+        <!-- LSAI satellites -->
+        <g class="gnode lsai-node" transform="translate(60,55)">
+          <circle r="22"/>
+          <text y="3" fill="var(--cyan)" font-size="9">Controller</text>
+        </g>
+        <g class="gnode lsai-node" transform="translate(60,205)">
+          <circle r="22"/>
+          <text y="3" fill="var(--cyan)" font-size="9">27 tests</text>
+        </g>
+        <!-- xmp4 satellites -->
+        <g class="gnode" transform="translate(520,55)">
+          <circle r="22"/>
+          <text y="3" font-size="9">dotnet/</text>
+        </g>
+        <g class="gnode" transform="translate(520,205)">
+          <circle r="22"/>
+          <text y="3" font-size="9">runtime</text>
+        </g>
+
+        <!-- Labels -->
+        <text class="glabel" x="110" y="85" text-anchor="middle" fill="var(--cyan)">15 callers</text>
+        <text class="glabel" x="110" y="185" text-anchor="middle" fill="var(--cyan)">impact</text>
+        <text class="glabel" x="470" y="85" text-anchor="middle">source</text>
+        <text class="glabel" x="470" y="185" text-anchor="middle">hierarchy</text>
+
+        <!-- Product labels -->
+        <text x="200" y="245" text-anchor="middle" font-family="var(--mono)" font-size="11" font-weight="700" fill="var(--cyan)">LSAI</text>
+        <text x="380" y="245" text-anchor="middle" font-family="var(--mono)" font-size="11" font-weight="700" fill="var(--accent)">xmp4</text>
+      </svg>
+      <div class="graph-footer">
+        <span style="color:var(--cyan)">your code &middot; live &middot; local</span>
+        <span class="good">your code + libraries &middot; ~1,500 tokens</span>
+        <span style="color:var(--accent)">900+ libraries &middot; pre-indexed</span>
+      </div>
+    </div>
+  </div>
 </div>
 </section>
 
