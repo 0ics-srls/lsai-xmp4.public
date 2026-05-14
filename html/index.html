@@ -9,9 +9,16 @@
 <meta property="og:url" content="https://example4.ai">
 <meta property="og:title" content="LSAI + xmp4 — Compiler-grade intelligence for AI agents">
 <meta property="og:description" content="Your code + every library you use. Type-resolved callers, real source, impact analysis — not grep, not guessing.">
+<meta name="keywords" content="MCP, AI developer tools, code intelligence, LSP, SCIP, Claude Code, Cursor, AI agents, semantic code, callers, hierarchy, source, open source, free">
+<meta name="author" content="0ics srl">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://example4.ai">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="LSAI + xmp4 — The full picture for AI agents">
 <meta name="twitter:description" content="Your code + every library. Compiler-grade intelligence via MCP. Free.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"LSAI + xmp4","url":"https://example4.ai","description":"Compiler-grade code intelligence for AI agents. LSAI for your code (local, 9 languages, 14 MCP tools). xmp4 for 900+ OSS libraries (cloud, 12 languages, 17 MCP tools).","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, Windows","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Organization","name":"0ics srl","url":"https://0ics.ai"}}
+</script>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -170,6 +177,7 @@ section{padding:88px 0;position:relative;z-index:1}
 .langmat th:first-child,.langmat td:first-child{text-align:left;padding-left:22px;color:var(--text);font-family:var(--mono);font-weight:600}
 .langmat td.ok{color:var(--accent);font-weight:700}
 .langmat td.lsai-ok{color:var(--cyan);font-weight:700}
+.langmat td.both{background:linear-gradient(90deg,var(--cyan),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700}
 .langmat td.part{color:var(--text-dim)}
 .langmat td.no{color:var(--text-dimmer)}
 
@@ -496,34 +504,29 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
     <table>
       <thead>
         <tr>
-          <th rowspan="2" style="vertical-align:bottom">Language</th>
-          <th colspan="4" style="color:var(--cyan);border-bottom:2px solid var(--cyan)">LSAI (your code)</th>
-          <th colspan="4" style="color:var(--accent);border-bottom:2px solid var(--accent)">xmp4 (libraries)</th>
-        </tr>
-        <tr>
-          <th>search</th><th>callers</th><th>impact</th><th>rename</th>
-          <th>search</th><th>callers</th><th>hierarchy</th><th>source</th>
+          <th>Language</th>
+          <th>search</th><th>callers</th><th>hierarchy</th><th>source</th><th>impact</th><th>rename</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Lang | LSAI: search callers impact rename | xmp4: search callers hierarchy source -->
-        <tr><td>C#</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
-        <tr><td>TypeScript</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
-        <tr><td>Python</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="part">◐</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
-        <tr><td>Java</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
-        <tr><td>Rust</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
-        <tr><td>PHP</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="part">◐</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
-        <tr><td>Go</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="ok">●</td></tr>
-        <tr><td>JavaScript</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="ok">●</td></tr>
-        <tr><td>C / C++</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="ok">●</td><td class="ok">●</td></tr>
-        <tr><td>Ruby</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td></tr>
-        <tr><td>Dart</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td></tr>
-        <tr><td>Scala</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td></tr>
+        <!-- both=LSAI+xmp4 (gradient) | lsai-ok=LSAI only (cyan) | ok=xmp4 only (amber) -->
+        <tr><td>C#</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>TypeScript</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>Python</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="part">◐</td></tr>
+        <tr><td>Java</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>Rust</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>PHP</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="part">◐</td></tr>
+        <tr><td>Go</td><td class="both">●</td><td class="both">●</td><td class="part">◐</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>JavaScript</td><td class="both">●</td><td class="both">●</td><td class="part">◐</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>C / C++</td><td class="both">●</td><td class="part">◐</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>Ruby</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
+        <tr><td>Dart</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
+        <tr><td>Scala</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
       </tbody>
     </table>
   </div>
   <p style="text-align:center;color:var(--text-dimmer);font-size:.82rem;margin-top:16px;font-family:var(--mono)">
-    <span style="color:var(--cyan)">●</span> LSAI (local) &middot; <span style="color:var(--accent)">●</span> xmp4 (cloud) &middot; ◐ best-effort &middot; &mdash; not available
+    <span style="background:linear-gradient(90deg,var(--cyan),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">●</span> both LSAI + xmp4 &middot; <span style="color:var(--cyan)">●</span> LSAI only &middot; <span style="color:var(--accent)">●</span> xmp4 only &middot; ◐ best-effort &middot; &mdash; not yet
   </p>
 </div>
 </section>
