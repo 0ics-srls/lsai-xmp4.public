@@ -139,6 +139,7 @@ section{padding:88px 0;position:relative;z-index:1}
 
 /* === STATS === */
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;text-align:center;padding:20px 0}
+.stats-6{grid-template-columns:repeat(6,1fr)}
 .stat-num{font-family:var(--mono);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;line-height:1;margin-bottom:6px}
 .stat-num.cyan{color:var(--cyan)}.stat-num.amber{color:var(--accent)}
 .stat-label{color:var(--text-dim);font-size:.82rem}
@@ -204,10 +205,27 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
 @media(max-width:880px){
   .tandem{grid-template-columns:1fr;gap:16px}
   .tandem-bridge{transform:rotate(90deg);padding:8px 0}
-  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats,.stats-6{grid-template-columns:repeat(3,1fr);gap:16px}
   .quickstart-grid{grid-template-columns:1fr}
   .bench-row{grid-template-columns:100px 1fr 80px;gap:10px}
-  .langmat{overflow-x:auto}.langmat table{min-width:700px}
+  .langmat{overflow-x:auto;-webkit-overflow-scrolling:touch}.langmat table{min-width:640px}
+  .demo-step pre{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .qs-card pre{font-size:.72rem}
+  section{padding:56px 0}
+  .hero{min-height:auto;padding:60px 16px 40px}
+  .hero-headline{font-size:clamp(1.8rem,6vw,2.6rem)}
+  .bench{padding:24px 16px}
+  .tandem-card{padding:24px 20px}
+}
+@media(max-width:480px){
+  .stats,.stats-6{grid-template-columns:repeat(2,1fr);gap:12px}
+  .stat-label{font-size:.72rem}
+  .bench-row{grid-template-columns:80px 1fr 70px;gap:8px}
+  .bench-label{font-size:.75rem}
+  .hero-ctas{flex-direction:column;align-items:center}
+  .container{padding:0 16px}
+  .graph-svg{height:200px}
+  .graph-footer{flex-direction:column;gap:6px;text-align:center}
 }
 </style>
 </head>
@@ -230,7 +248,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
   <h1 class="hero-headline">Your AI gets the <span class="cyan">compiler's eyes</span> on your code <em>and</em> every library you use.</h1>
   <p class="hero-sub">
     <strong>LSAI</strong> gives your AI agent live, compiler-grade intelligence on the code you're writing.
-    <strong>xmp4</strong> gives it the same on <strong>887 OSS libraries</strong> and <strong>15,852 projects</strong>, pre-indexed.
+    <strong>xmp4</strong> gives it the same on <strong>900+ OSS libraries</strong> and <strong>15,852 projects</strong>, pre-indexed.
     Together: the AI sees everything the compiler sees &mdash; no grep, no guessing, no blind spots.
   </p>
   <div class="hero-ctas">
@@ -314,7 +332,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
 <!-- STATS -->
 <section>
 <div class="container">
-  <div class="stats" style="grid-template-columns:repeat(6,1fr)">
+  <div class="stats stats-6">
     <div>
       <div class="stat-num cyan">9</div>
       <div class="stat-label">Languages (LSAI)</div>
@@ -324,7 +342,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
       <div class="stat-label">MCP tools (LSAI)</div>
     </div>
     <div>
-      <div class="stat-num amber" data-target="887" data-suffix="+" data-stat-key="repos">0</div>
+      <div class="stat-num amber" data-target="900" data-suffix="+" data-stat-key="repos">0</div>
       <div class="stat-label">Libraries (xmp4)</div>
     </div>
     <div>
@@ -375,7 +393,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
         <li>"What's the hierarchy of <code>Matrix</code> in Eigen?" &rarr; compiler-resolved</li>
         <li>"Find tests for <code>S3Client.PutObject</code>" &rarr; real test files</li>
       </ul>
-      <div class="card-stat"><strong>17 tools</strong> &middot; 12 languages &middot; 887 libraries &middot; <strong>15,852 projects</strong> &middot; free</div>
+      <div class="card-stat"><strong>17 tools</strong> &middot; 12 languages &middot; 900+ libraries &middot; <strong>15,852 projects</strong> &middot; free</div>
     </div>
   </div>
 
@@ -478,30 +496,34 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
     <table>
       <thead>
         <tr>
-          <th>Language</th>
-          <th>LSAI (local)</th>
-          <th>xmp4 (libraries)</th>
-          <th>search</th><th>callers</th><th>hierarchy</th><th>source</th><th>impact</th><th>rename</th>
+          <th rowspan="2" style="vertical-align:bottom">Language</th>
+          <th colspan="4" style="color:var(--cyan);border-bottom:2px solid var(--cyan)">LSAI (your code)</th>
+          <th colspan="4" style="color:var(--accent);border-bottom:2px solid var(--accent)">xmp4 (libraries)</th>
+        </tr>
+        <tr>
+          <th>search</th><th>callers</th><th>impact</th><th>rename</th>
+          <th>search</th><th>callers</th><th>hierarchy</th><th>source</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>C#</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>TypeScript</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>Python</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="lsai-ok">●</td><td class="part">◐</td></tr>
-        <tr><td>Java</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>Rust</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>PHP</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="lsai-ok">●</td><td class="part">◐</td></tr>
-        <tr><td>Go</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>JavaScript</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>C / C++</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="ok">●</td><td class="ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>Ruby</td><td class="no">&mdash;</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
-        <tr><td>Dart</td><td class="no">&mdash;</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
-        <tr><td>Scala</td><td class="no">&mdash;</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
+        <!-- Lang | LSAI: search callers impact rename | xmp4: search callers hierarchy source -->
+        <tr><td>C#</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
+        <tr><td>TypeScript</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
+        <tr><td>Python</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="part">◐</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
+        <tr><td>Java</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
+        <tr><td>Rust</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
+        <tr><td>PHP</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="part">◐</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td></tr>
+        <tr><td>Go</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="ok">●</td></tr>
+        <tr><td>JavaScript</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="ok">●</td></tr>
+        <tr><td>C / C++</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="ok">●</td><td class="ok">●</td></tr>
+        <tr><td>Ruby</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td></tr>
+        <tr><td>Dart</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td></tr>
+        <tr><td>Scala</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="no">&mdash;</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td></tr>
       </tbody>
     </table>
   </div>
   <p style="text-align:center;color:var(--text-dimmer);font-size:.82rem;margin-top:16px;font-family:var(--mono)">
-    <span style="color:var(--cyan)">●</span> LSAI &middot; <span style="color:var(--accent)">●</span> xmp4 &middot; ◐ best-effort &middot; &mdash; not yet
+    <span style="color:var(--cyan)">●</span> LSAI (local) &middot; <span style="color:var(--accent)">●</span> xmp4 (cloud) &middot; ◐ best-effort &middot; &mdash; not available
   </p>
 </div>
 </section>
