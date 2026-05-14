@@ -175,10 +175,10 @@ section{padding:88px 0;position:relative;z-index:1}
 .langmat th,.langmat td{padding:11px 10px;text-align:center;border-bottom:1px solid #1a1a1a}
 .langmat th{color:var(--text-dimmer);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;background:#0f0f0f}
 .langmat th:first-child,.langmat td:first-child{text-align:left;padding-left:22px;color:var(--text);font-family:var(--mono);font-weight:600}
-.langmat td.ok{color:var(--accent);font-weight:700}
-.langmat td.lsai-ok{color:var(--cyan);font-weight:700}
-.langmat td.both{background:linear-gradient(90deg,var(--cyan),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700}
-.langmat td.part{color:var(--text-dim)}
+.langmat td.ok{color:var(--accent);font-weight:700;font-size:1.3rem}
+.langmat td.lsai-ok{color:var(--cyan);font-weight:700;font-size:1.3rem}
+.langmat td.both{background:linear-gradient(90deg,var(--cyan),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;font-size:1.3rem}
+.langmat td.part{color:var(--text-dim);font-size:1.3rem}
 .langmat td.no{color:var(--text-dimmer)}
 
 /* === QUICKSTART === */
@@ -216,7 +216,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
   .stats,.stats-6{grid-template-columns:repeat(3,1fr);gap:16px}
   .quickstart-grid{grid-template-columns:1fr}
   .bench-row{grid-template-columns:100px 1fr 80px;gap:10px}
-  .langmat{overflow-x:auto;-webkit-overflow-scrolling:touch}.langmat table{min-width:640px}
+  .langmat{overflow-x:auto;-webkit-overflow-scrolling:touch}.langmat table{min-width:750px}
   .demo-step pre{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .qs-card pre{font-size:.72rem}
   section{padding:56px 0}
@@ -505,23 +505,24 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid #1a1a1a;margin-t
       <thead>
         <tr>
           <th>Language</th>
+          <th>LSAI</th><th>xmp4</th>
           <th>search</th><th>callers</th><th>hierarchy</th><th>source</th><th>impact</th><th>rename</th>
         </tr>
       </thead>
       <tbody>
-        <!-- both=LSAI+xmp4 (gradient) | lsai-ok=LSAI only (cyan) | ok=xmp4 only (amber) -->
-        <tr><td>C#</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>TypeScript</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>Python</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="part">◐</td></tr>
-        <tr><td>Java</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>Rust</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>PHP</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="part">◐</td></tr>
-        <tr><td>Go</td><td class="both">●</td><td class="both">●</td><td class="part">◐</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>JavaScript</td><td class="both">●</td><td class="both">●</td><td class="part">◐</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>C / C++</td><td class="both">●</td><td class="part">◐</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
-        <tr><td>Ruby</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
-        <tr><td>Dart</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
-        <tr><td>Scala</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
+        <!-- LSAI/xmp4 columns show product availability | tool columns: both=gradient, lsai-ok=cyan, ok=amber, part=half -->
+        <tr><td>C#</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>TypeScript</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>Python</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="part">◐</td></tr>
+        <tr><td>Java</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>Rust</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>PHP</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="part">◐</td></tr>
+        <tr><td>Go</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="both">●</td><td class="both">●</td><td class="part">◐</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>JavaScript</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="both">●</td><td class="both">●</td><td class="part">◐</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>C / C++</td><td class="lsai-ok">●</td><td class="ok">●</td><td class="both">●</td><td class="part">◐</td><td class="both">●</td><td class="both">●</td><td class="lsai-ok">●</td><td class="lsai-ok">●</td></tr>
+        <tr><td>Ruby</td><td class="no">&mdash;</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
+        <tr><td>Dart</td><td class="no">&mdash;</td><td class="ok">●</td><td class="ok">●</td><td class="part">◐</td><td class="part">◐</td><td class="ok">●</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
+        <tr><td>Scala</td><td class="no">&mdash;</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="part">◐</td><td class="no">&mdash;</td><td class="no">&mdash;</td></tr>
       </tbody>
     </table>
   </div>
