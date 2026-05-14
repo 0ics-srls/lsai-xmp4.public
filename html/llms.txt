@@ -1,0 +1,73 @@
+# LSAI + xmp4
+
+> Two MCP servers that give AI coding agents compiler-grade code intelligence. LSAI analyzes your local code in real time via LSP. xmp4 provides semantic navigation of 900+ pre-indexed OSS libraries via SCIP. Both free, both open protocol (MCP).
+
+## LSAI — your code, live
+
+LSAI runs locally on your machine and connects to LSP servers (Roslyn, jdtls, Pyright, rust-analyzer, etc.) to give your AI agent real-time compiler-grade intelligence on the codebase you are actively developing.
+
+- 14 MCP tools: search, info, usages, callers, callees, hierarchy, impact, rename, outline, diagnostics, deps, source, file_refs, context
+- 9 languages: C#, TypeScript, Python, Java, Rust, PHP, Go, JavaScript, C/C++
+- Runs 100% locally — your code never leaves your machine
+- Install: `curl -fsSL https://github.com/0ics-srls/Zerox.Lsai.Public/releases/latest/download/install.sh | bash`
+- Docs: https://github.com/0ics-srls/Zerox.Lsai.Public
+
+## xmp4 — every library, pre-indexed
+
+xmp4 is a hosted MCP server with 900+ pre-indexed OSS libraries across 12 languages. It answers symbol-level questions (real source, typed callers, usages, tests, hierarchies) in a single tool call.
+
+- 17 MCP tools: projects, search, info, source, usages, callers, callees, hierarchy, outline, deps, tests_for, view, grep, symbol_at, server, guide
+- 12 languages: C#, TypeScript, Python, Java, Rust, PHP, Go, JavaScript, C/C++, Dart, Ruby, Scala
+- 900+ OSS libraries, 15,000+ projects pre-indexed
+- Free, no API key, no install
+- Endpoint: https://mcp.example4.ai/mcp (Streamable HTTP)
+- Docs: https://github.com/0ics-srls/lsai-xmp4.public
+
+## How they work together
+
+LSAI tells your AI "your PublishAsync calls GetRequiredService". xmp4 tells it "here is how GetRequiredService is implemented in dotnet/runtime". Together: zero blind spots from your code to every library it depends on.
+
+Typical workflow: lsai_callees("PublishAsync") -> xmp4_source("GetRequiredService", project="dotnet/runtime") -> lsai_impact("PublishAsync")
+
+## Connect
+
+LSAI (local, stdio):
+```json
+{
+  "mcpServers": {
+    "lsai": {
+      "command": "~/.lsai/run",
+      "args": ["--stdio"]
+    }
+  }
+}
+```
+
+xmp4 (remote, HTTP):
+```json
+{
+  "mcpServers": {
+    "xmp4": {
+      "type": "http",
+      "url": "https://mcp.example4.ai/mcp"
+    }
+  }
+}
+```
+
+Works with Claude Code, Claude Desktop, Cursor, VS Code, Windsurf, Zed, and any MCP-capable client.
+
+## Links
+
+- Landing: https://example4.ai
+- LSAI docs: https://github.com/0ics-srls/Zerox.Lsai.Public
+- xmp4 docs: https://github.com/0ics-srls/lsai-xmp4.public
+- xmp4 skill: https://example4.ai/xmp4-skill.md
+- Benchmark whitepaper: https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/benchmarks/WHITEPAPER.md
+- Request a library: https://github.com/0ics-srls/lsai-xmp4.public/issues/new?template=request-repo.yml
+- MCP Registry: ai.example4/xmp4
+- Privacy & attribution: https://github.com/0ics-srls/lsai-xmp4.public/blob/main/docs/privacy.md
+
+## About
+
+Built by 0ics srl (Bologna, Italy). xmp4 uses SCIP, an open code-indexing format (Apache 2.0). LSAI uses standard Language Server Protocol servers. Independent products, not affiliated with Sourcegraph or Microsoft.

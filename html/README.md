@@ -8,6 +8,9 @@ Static HTML served from the cluster as `https://example4.ai`.
 |---|---|
 | `index.html` | Current landing — hero with animated particles, stat section consuming `/api/stats`, benchmark, CTA, footer disclaimer. |
 | `v2.html` | Alternative redesign (short-form). Not served yet — for A/B evaluation. |
+| `llms.txt` | AI-readable site description (llmstxt.org standard). Products, tools, endpoints, connect instructions. |
+| `robots.txt` | Crawler directives + sitemap link. |
+| `sitemap.xml` | XML sitemap for search engines. |
 | `README.md` | This file. Rules for maintenance. |
 
 ## How it's served
@@ -40,6 +43,18 @@ cd /home/laco/lsai-xmp4.dashboard/submodules/lsai-xmp4.public
 
 kubectl -n example4 create configmap landing-page-html \
     --from-file=index.html=html/index.html \
+    --from-file=llms.txt=html/llms.txt \
+    --from-file=robots.txt=html/robots.txt \
+    --from-file=sitemap.xml=html/sitemap.xml \
+    --from-file=xmp4-skill.md=html/xmp4-skill.md \
+    --from-file=favicon.ico=html/icons/favicon.ico \
+    --from-file=favicon-16x16.png=html/icons/favicon-16x16.png \
+    --from-file=favicon-32x32.png=html/icons/favicon-32x32.png \
+    --from-file=favicon-48x48.png=html/icons/favicon-48x48.png \
+    --from-file=apple-touch-icon.png=html/icons/apple-touch-icon.png \
+    --from-file=android-chrome-192x192.png=html/icons/android-chrome-192x192.png \
+    --from-file=android-chrome-512x512.png=html/icons/android-chrome-512x512.png \
+    --from-file=manifest.webmanifest=html/icons/manifest.webmanifest \
     --dry-run=client -o yaml | kubectl apply -f -
 
 kubectl -n example4 rollout restart deployment/landing-page
